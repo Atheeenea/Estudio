@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Estudio Interactiva: Aprendizaje y Enseñanza del Dibujo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chosen Palette: Foco Calmado (Teal & Slate) -->
+    <!-- Application Structure Plan: La aplicación se estructura en cinco secciones: tres de contenido temático, una de autoevaluación y una nueva de preguntas de desarrollo. La navegación superior es responsive y permite el acceso a cada área. Las secciones de contenido usan tarjetas expandibles. El quiz ofrece feedback inmediato y la nueva sección de desarrollo permite un repaso profundo de conceptos clave. Esta estructura final crea una herramienta de estudio integral, que cubre consulta, práctica y refuerzo. -->
+    <!-- Visualization & Content Choices: 
+    - Contenido Teórico: Report Info -> Conceptos clave. Goal -> Organizar/Informar. Viz/Method -> Tarjetas interactivas (HTML/JS). Interaction -> Clic para expandir. Justification -> Evita sobrecarga de información.
+    - Comparativas: Report Info -> Comparación de teorías/metodologías. Goal -> Comparar. Viz/Method -> Gráfico de barras (Chart.js), Tablas (HTML). Interaction -> Tooltips/Estática. Justification -> Síntesis visual.
+    - Autoevaluación (Quiz): Report Info -> Temario completo. Goal -> Evaluar/Reforzar. Viz/Method -> Quiz interactivo (HTML/JS). Interaction -> Selección, feedback, revisión. Justification -> Aprendizaje activo.
+    - Preguntas de Desarrollo: Report Info -> Temas troncales. Goal -> Profundizar/Sintetizar. Viz/Method -> Tarjetas interactivas (HTML/JS). Interaction -> Clic para expandir. Justification -> Preparación para preguntas abiertas. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        .active-tab {
+            border-bottom-color: #0d9488;
+            color: #134e4a;
+            font-weight: 600;
+        }
+        .tab {
+            border-bottom: 2px solid transparent;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .card-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+            padding: 0 1.5rem;
+        }
+        .card.open .card-content {
+            max-height: 1200px;
+            padding: 1rem 1.5rem;
+        }
+        .card.open .chevron {
+            transform: rotate(180deg);
+        }
+        .chevron {
+            transition: transform 0.3s ease-in-out;
+        }
+        .chart-container {
+            position: relative; 
+            width: 100%; 
+            max-width: 800px; 
+            margin-left: auto; 
+            margin-right: auto; 
+            height: 350px;
+            max-height: 450px;
+        }
+        .quiz-option {
+            transition: background-color 0.2s;
+        }
+        .quiz-option.selected {
+            background-color: #cffafe;
+            border-color: #06b6d4;
+        }
+        .quiz-option.correct {
+            background-color: #d1fae5;
+            border-color: #10b981;
+        }
+        .quiz-option.incorrect {
+            background-color: #fee2e2;
+            border-color: #ef4444;
+        }
+        @media (min-width: 768px) { .chart-container { height: 400px; } }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-teal-900">Guía de Estudio Interactiva</h1>
+            <p class="text-lg text-teal-800 mt-2">Aprendizaje y Enseñanza del Dibujo</p>
+        </header>
+
+        <nav class="flex flex-wrap justify-center border-b-2 border-teal-200 mb-8 sticky top-0 bg-slate-50 z-10">
+            <button class="tab active-tab py-4 px-6 text-sm md:text-base" onclick="showTab(0, this)">Videoconferencia 1</button>
+            <button class="tab py-4 px-6 text-sm md:text-base" onclick="showTab(1, this)">Videoconferencia 2</button>
+            <button class="tab py-4 px-6 text-sm md:text-base" onclick="showTab(2, this)">Videoconferencia 3</button>
+            <button class="tab py-4 px-6 text-sm md:text-base" onclick="showTab(3, this)">Autoevaluación</button>
+            <button class="tab py-4 px-6 text-sm md:text-base" onclick="showTab(4, this)">Preguntas de Desarrollo</button>
+        </nav>
+
+        <main>
+            <!-- Videoconferencia 1 -->
+            <section class="content-section active">
+                 <div class="bg-teal-100/60 p-6 rounded-2xl mb-8 border border-teal-200">
+                    <p class="text-teal-900 text-center">Esta primera sección aborda los cimientos de la educación artística. Exploraremos su evolución a través de diferentes paradigmas, conoceremos a los teóricos clave que han moldeado nuestra comprensión del arte y la percepción, y analizaremos el impacto de la cultura visual en la sociedad actual. Utiliza las tarjetas interactivas para descubrir cada concepto a tu ritmo.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="md:col-span-2 lg:col-span-3">
+                        <div class="card bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden cursor-pointer" onclick="toggleCard(this)">
+                            <div class="p-6 flex justify-between items-center">
+                                <h3 class="text-xl font-semibold text-teal-800">Enfoques y Paradigmas de la Educación Artística</h3>
+                                <span class="chevron text-teal-800">&#9660;</span>
+                            </div>
+                            <div class="card-content">
+                                <p class="mb-4 text-gray-600">La forma de enseñar Dibujo ha evolucionado según la concepción social de la materia.</p>
+                                <ul class="list-disc list-inside space-y-3 text-slate-700">
+                                    <li><strong>Vinculada al sistema productivo:</strong> El más antiguo. Centrado en la adquisición de <strong>habilidades técnicas</strong> y la copia (mímesis o imitación de la naturaleza).</li>
+                                    <li><strong>Desarrollo de la creatividad y autoexpresión:</strong> Reacciona contra la rigidez anterior. Ve el arte como un medio para la <strong>libre expresión de sentimientos</strong>. Teóricos como <strong>Lowenfeld</strong> destacan que el arte es un proceso, no un fin en sí mismo.</li>
+                                    <li><strong>Basada en la alfabetización visual:</strong> Concibe el arte como un <strong>lenguaje visual</strong> con su propia gramática (punto, línea, plano), lo que facilita su enseñanza y evaluación.</li>
+                                    <li><strong>Centrada en la Historia del Arte:</strong> Organiza la enseñanza de forma cronológica, aunque a menudo deja fuera el arte contemporáneo, alejándolo de la realidad del alumnado.</li>
+                                    <li><strong>Como Disciplina (DBAE):</strong> Busca un marco común que integra producción artística, historia del arte, crítica y estética para una comprensión del arte como fenómeno social y cultural.</li>
+                                    <li><strong>Para la comprensión de la Cultura Visual:</strong> La tendencia más actual. Analiza cómo las manifestaciones visuales (arte, publicidad, cine, internet) construyen significados sociales y busca desarrollar una <strong>comprensión crítica</strong> del entorno visual que nos rodea.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden cursor-pointer" onclick="toggleCard(this)">
+                        <div class="p-6 flex justify-between items-center">
+                            <h3 class="text-xl font-semibold text-teal-800">Teóricos Clave</h3>
+                            <span class="chevron text-teal-800">&#9660;</span>
+                        </div>
+                        <div class="card-content">
+                           <ul class="list-disc list-inside space-y-3 text-slate-700">
+                                <li><strong>Luquet (1981):</strong> Sostiene que el dibujo infantil es fundamentalmente <strong>realista</strong> por los temas que trata (extraídos de su experiencia), nunca abstracto.</li>
+                                <li><strong>Lowenfeld:</strong> Defiende la <strong>libre expresión</strong> y el arte como un proceso. Sus etapas del desarrollo del dibujo infantil (garabato, preesquemática, esquemática, realismo) son fundamentales.</li>
+                                <li><strong>La Gestalt:</strong> Aporta la idea de que <strong>"el todo es más que la suma de sus partes"</strong>. Establece las leyes de la percepción (figura-fondo, cierre, similaridad, etc.) que explican cómo nuestro cerebro organiza los estímulos visuales en totalidades con sentido.</li>
+                           </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="card bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden cursor-pointer" onclick="toggleCard(this)">
+                        <div class="p-6 flex justify-between items-center">
+                            <h3 class="text-xl font-semibold text-teal-800">Cultura Visual y Funciones de la Imagen</h3>
+                            <span class="chevron text-teal-800">&#9660;</span>
+                        </div>
+                        <div class="card-content">
+                            <p class="mb-4 text-slate-700"><strong>Cultura Visual:</strong> Es el estudio de cómo la sociedad actual, dominada por la imagen, construye sus significados. Es crucial desarrollar una <strong>alfabetización visual</strong> para interpretar críticamente los mensajes y no ser consumidores pasivos.</p>
+                            <p class="mb-2 text-slate-700 font-semibold">Funciones de la imagen:</p>
+                             <ul class="list-disc list-inside space-y-2 text-slate-700">
+                                <li><strong>Conativa:</strong> Busca <strong>persuadir</strong> o convencer (publicidad).</li>
+                                <li><strong>Fática:</strong> Su objetivo es <strong>llamar la atención</strong>.</li>
+                                <li><strong>Emotiva:</strong> Apela a los <strong>sentimientos</strong> y recuerdos del espectador.</li>
+                                <li><strong>Referencial:</strong> <strong>Apoya visualmente un texto</strong> o informa de un hecho.</li>
+                                <li><strong>Poética:</strong> Propia del arte, transmite fuerza y "habla" por sí misma.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden cursor-pointer" onclick="toggleCard(this)">
+                        <div class="p-6 flex justify-between items-center">
+                            <h3 class="text-xl font-semibold text-teal-800">Conceptos del Contexto Educativo</h3>
+                            <span class="chevron text-teal-800">&#9660;</span>
+                        </div>
+                        <div class="card-content">
+                            <ul class="list-disc list-inside space-y-3 text-slate-700">
+                                <li><strong>Asignaturas "María":</strong> Expresión coloquial para referirse a asignaturas consideradas "prescindibles" (como las artísticas), con menos peso curricular. El docente debe romper esta percepción.</li>
+                                <li><strong>Inteligencias Múltiples (Gardner):</strong> No existe una única inteligencia, sino al menos ocho que pueden ser desarrolladas. En Dibujo, la <strong>inteligencia visual-espacial</strong> es fundamental.</li>
+                                <li><strong>Ámbitos de la Educación:</strong> <strong>Formal</strong> (reglada, con título), <strong>No Formal</strong> (intencionada, sin título oficial, ej. museos) e <strong>Informal</strong> (cotidiana, a través de la experiencia).</li>
+                                <li><strong>PLE (Entorno Personal de Aprendizaje):</strong> Conjunto de herramientas, fuentes y conexiones que cada persona usa para aprender. Es único e integra los tres ámbitos.</li>
+                           </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Videoconferencia 2 -->
+            <section class="content-section">
+                <div class="bg-teal-100/60 p-6 rounded-2xl mb-8 border border-teal-200">
+                    <p class="text-teal-900 text-center">Esta sección se enfoca en la aplicación práctica dentro del aula. Veremos estrategias específicas para enseñar dibujo, las metodologías pedagógicas más innovadoras que sitúan al alumno como protagonista, y cómo la atención a la diversidad es un pilar fundamental en la educación artística, explorando conceptos como el Art Brut.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="md:col-span-2">
+                         <div class="card bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden cursor-pointer" onclick="toggleCard(this)">
+                            <div class="p-6 flex justify-between items-center">
+                                <h3 class="text-xl font-semibold text-teal-800">Estrategias Específicas de Enseñanza del Dibujo</h3>
+                                <span class="chevron text-teal-800">&#9660;</span>
+                            </div>
+                            <div class="card-content">
+                                <p class="mb-4 text-gray-600">Son tácticas que el docente puede aplicar para facilitar el aprendizaje.</p>
+                                <ol class="list-decimal list-inside space-y-2 text-slate-700">
+                                    <li><strong>Estrategia del pensamiento visual:</strong> Enseñar a "ver", es decir, a observar, analizar y comprender estructuras espaciales y lógicas.</li>
+                                    <li><strong>Estrategia metafórica:</strong> Conectar conceptos abstractos con la experiencia del alumno (ej. usar formas geométricas para entender señales de tráfico).</li>
+                                    <li><strong>Estrategia de la fantasía:</strong> Fomentar la imaginación y la creatividad para que el alumno diseñe de manera autónoma y original.</li>
+                                    <li><strong>Estrategia multisensorial:</strong> Integrar varios sentidos. Aprender "haciendo" y "tocando" para dominar herramientas y materiales.</li>
+                                    <li><strong>Estrategia de experiencia:</strong> Relacionar la materia con ejemplos prácticos, cotidianos o profesionales para que resulte útil y motivadora.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                     <div class="md:col-span-2">
+                        <div class="card bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden cursor-pointer" onclick="toggleCard(this)">
+                            <div class="p-6 flex justify-between items-center">
+                                <h3 class="text-xl font-semibold text-teal-800">Metodologías Pedagógicas Contemporáneas</h3>
+                                <span class="chevron text-teal-800">&#9660;</span>
+                            </div>
+                            <div class="card-content">
+                                <p class="mb-4 text-gray-600">Son métodos innovadores que sitúan al alumno como protagonista y son excelentes herramientas para atender a la diversidad.</p>
+                                <div class="space-y-4">
+                                    <p><strong>Aula Invertida (Flipped Classroom):</strong> El alumno recibe el contenido teórico en casa (vídeos, lecturas) y el tiempo en el aula se dedica a la práctica y la resolución de dudas.</p>
+                                    <p><strong>Gamificación:</strong> Integra mecánicas de juego (puntos, niveles, recompensas) en el aula para captar la atención y hacer las lecciones más atractivas.</p>
+                                    
+                                    <div class="mt-4 border-t pt-4">
+                                        <h4 class="font-semibold text-lg mb-2 text-center text-teal-900">Comparativa: ABP vs. PBL</h4>
+                                        <div class="overflow-x-auto">
+                                            <table class="w-full text-left border-collapse">
+                                                <thead>
+                                                    <tr class="bg-teal-100">
+                                                        <th class="p-3 border border-teal-200 font-semibold">Aprendizaje Basado en Proyectos (ABP)</th>
+                                                        <th class="p-3 border border-teal-200 font-semibold">Aprendizaje Basado en Problemas (PBL)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="p-3 border border-teal-200">Los alumnos, en grupo, desarrollan un proyecto para responder a una pregunta o problema real.</td>
+                                                        <td class="p-3 border border-teal-200">Parte de un problema (real o hipotético) para que el alumno investigue y busque soluciones.</td>
+                                                    </tr>
+                                                    <tr class="bg-teal-50">
+                                                        <td class="p-3 border border-teal-200">Se enfoca en la generación de un <strong>producto final</strong>.</td>
+                                                        <td class="p-3 border border-teal-200">Se enfoca más en el <strong>proceso de aprendizaje</strong> que en el producto.</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden cursor-pointer" onclick="toggleCard(this)">
+                        <div class="p-6 flex justify-between items-center">
+                            <h3 class="text-xl font-semibold text-teal-800">Atención a la Diversidad</h3>
+                            <span class="chevron text-teal-800">&#9660;</span>
+                        </div>
+                        <div class="card-content">
+                            <ul class="list-disc list-inside space-y-3 text-slate-700">
+                                <li><strong>Medidas de Carácter Ordinario:</strong> Estrategias que se aplican <strong>sin modificar</strong> los elementos esenciales del currículo (objetivos, contenidos). Incluyen <strong>adaptaciones curriculares no significativas</strong> (cambios en tiempos, metodología) y programas de refuerzo (PTI).</li>
+                                <li><strong>Medidas de Carácter Extraordinario:</strong> Se aplican cuando las ordinarias son insuficientes. <strong>Modifican elementos prescriptivos del currículo</strong> (objetivos, contenidos). Requieren una evaluación psicopedagógica previa. Un ejemplo son las <strong>adaptaciones curriculares significativas</strong>.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="card bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden cursor-pointer" onclick="toggleCard(this)">
+                        <div class="p-6 flex justify-between items-center">
+                            <h3 class="text-xl font-semibold text-teal-800">Art Brut (Arte Marginal)</h3>
+                            <span class="chevron text-teal-800">&#9660;</span>
+                        </div>
+                        <div class="card-content">
+                            <p class="mb-2 text-slate-700"><strong>Definición:</strong> Término acuñado por el artista <strong>Jean Dubuffet</strong> para referirse al arte creado por personas ajenas al mundo académico o artístico, sin formación reglada (niños, enfermos psiquiátricos, autodidactas).</p>
+                            <p class="text-slate-700"><strong>Características:</strong> Destaca por su pureza, autonomía y creatividad, sin buscar un fin comercial o el reconocimiento.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Videoconferencia 3 -->
+            <section class="content-section">
+                 <div class="bg-teal-100/60 p-6 rounded-2xl mb-8 border border-teal-200">
+                    <p class="text-teal-900 text-center">La última sección nos proyecta hacia el futuro y profundiza en las bases teóricas del aprendizaje. Analizaremos las grandes corrientes pedagógicas, el nuevo rol del docente en la era digital y cómo la tecnología está redefiniendo los límites del diseño y la educación artística. El gráfico y la tabla comparativa te ayudarán a sintetizar visualmente estos conceptos.</p>
+                </div>
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <div class="md:col-span-2">
+                        <div class="card bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden cursor-pointer" onclick="toggleCard(this)">
+                            <div class="p-6 flex justify-between items-center">
+                                <h3 class="text-xl font-semibold text-teal-800">Corrientes Pedagógicas y Teorías del Aprendizaje</h3>
+                                <span class="chevron text-teal-800">&#9660;</span>
+                            </div>
+                            <div class="card-content">
+                                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+                                    <div>
+                                        <h4 class="font-semibold text-teal-900">Conductismo</h4>
+                                        <p class="text-slate-700">Se centra en el <strong>comportamiento observable</strong> como asociación estímulo-respuesta. El alumno es un sujeto pasivo. Se critica que no explica los procesos mentales.</p>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-teal-900">Cognitivismo</h4>
+                                        <p class="text-slate-700">Se centra en los <strong>procesos mentales internos</strong>. La persona es un <strong>agente activo</strong>. Aporta el concepto de <strong>aprendizaje significativo</strong> (Ausubel).</p>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-teal-900">Constructivismo</h4>
+                                        <p class="text-slate-700">La persona <strong>"construye" activamente</strong> su conocimiento. El profesor es un <strong>facilitador</strong>. Precursores: Piaget y Vygotsky.</p>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-teal-900">Conectivismo</h4>
+                                        <p class="text-slate-700">Es la teoría para la <strong>era digital</strong>. El conocimiento reside en las <strong>redes de conexión</strong>. Fomenta el uso de las TIC.</p>
+                                    </div>
+                                </div>
+                                <div class="chart-container">
+                                    <canvas id="pedagogyChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="md:col-span-2">
+                        <div class="card bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden cursor-pointer" onclick="toggleCard(this)">
+                            <div class="p-6 flex justify-between items-center">
+                                <h3 class="text-xl font-semibold text-teal-800">El Rol del Docente y la Realidad del Aula en el Siglo XXI</h3>
+                                <span class="chevron text-teal-800">&#9660;</span>
+                            </div>
+                            <div class="card-content">
+                                <ul class="list-disc list-inside space-y-3 text-slate-700">
+                                    <li><strong>Pautas del Buen Docente (Medley, 1979):</strong> Combinar cualidades personales, usar metodologías eficaces, crear un buen clima de aula, tener competencias docentes y saber aplicarlas en la práctica.</li>
+                                    <li><strong>Efecto Pigmalión:</strong> Las expectativas (positivas o negativas) del profesor influyen directamente en el rendimiento y la motivación del alumnado.</li>
+                                    <li><strong>Nuevos Estilos Docentes:</strong> <strong>Profesor como Hacker</strong> (innovador), <strong>Profesor como DJ</strong> (explora, selecciona y mezcla), <strong>Profesor como Coach</strong> (empodera) y <strong>Profesor como Community Manager</strong> (gestiona comunidades online).</li>
+                                    <li><strong>La Relación Escuela-Museo:</strong> A menudo, los museos ven a la escuela como un <strong>"target group"</strong> (consumidor). La visión alternativa busca transformar la visita en un proceso educativo participativo.</li>
+                                    <li><strong>Transversalidad:</strong> Es un enfoque que integra ciertos contenidos y valores (paz, igualdad) en todas las áreas. La <strong>LOMLOE</strong> define <strong>elementos transversales</strong> (comprensión lectora, competencia digital, creatividad) para todas las materias.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="md:col-span-2">
+                        <div class="card bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden cursor-pointer" onclick="toggleCard(this)">
+                            <div class="p-6 flex justify-between items-center">
+                                <h3 class="text-xl font-semibold text-teal-800">El Futuro del Diseño y la Educación Artística</h3>
+                                <span class="chevron text-teal-800">&#9660;</span>
+                            </div>
+                            <div class="card-content">
+                                <p class="mb-4 text-slate-700"><strong>La Tecnología como Aliado:</strong> El futuro de la educación será bilingüe, gamificado y virtual, con herramientas clave como programas CAD, impresoras 3D, Web 2.0 y 3.0, Realidad Virtual (RV), Realidad Aumentada (RA) y Videojuegos.</p>
+
+                                <div class="mt-4 border-t pt-4">
+                                    <h4 class="font-semibold text-lg mb-2 text-center text-teal-900">Comparativa: Ingeniería Secuencial vs. Concurrente</h4>
+                                    <div class="overflow-x-auto">
+                                        <table class="w-full text-left border-collapse">
+                                            <thead>
+                                                <tr class="bg-teal-100">
+                                                    <th class="p-3 border border-teal-200 font-semibold">Ingeniería Secuencial</th>
+                                                    <th class="p-3 border border-teal-200 font-semibold">Ingeniería Concurrente</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="p-3 border border-teal-200">Modelo tradicional, lineal y por departamentos aislados.</td>
+                                                    <td class="p-3 border border-teal-200">Modelo colaborativo donde todos los departamentos trabajan juntos desde el inicio.</td>
+                                                </tr>
+                                                <tr class="bg-teal-50">
+                                                    <td class="p-3 border border-teal-200">Rápido pero con mayor riesgo de errores costosos.</td>
+                                                    <td class="p-3 border border-teal-200">Hay retroalimentación constante para mejorar la calidad del producto final.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Autoevaluación -->
+            <section class="content-section">
+                <div id="quiz-container" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                    <div id="quiz-start-screen">
+                         <div class="bg-teal-100/60 p-6 rounded-2xl mb-8 border border-teal-200">
+                            <h2 class="text-2xl font-bold text-teal-900 text-center mb-4">Test de Autoevaluación</h2>
+                            <p class="text-teal-900 text-center">Pon a prueba tus conocimientos con este test de 80 preguntas. Recibirás una explicación con cada respuesta. ¡Mucha suerte!</p>
+                        </div>
+                        <div class="text-center">
+                             <button onclick="startQuiz()" class="bg-teal-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-teal-700 transition-colors">Comenzar Test</button>
+                        </div>
+                    </div>
+
+                    <div id="quiz-main-screen" class="hidden">
+                        <div class="flex justify-between items-center mb-4">
+                            <div>
+                                <span id="question-counter" class="text-sm font-semibold text-slate-600"></span>
+                            </div>
+                            <div>
+                                <span class="text-sm font-semibold text-green-600">Aciertos: <span id="score-correct">0</span></span>
+                                <span class="text-sm font-semibold text-red-600 ml-4">Fallos: <span id="score-incorrect">0</span></span>
+                            </div>
+                        </div>
+                        <div class="w-full bg-slate-200 rounded-full h-2.5 mb-6">
+                            <div id="progress-bar" class="bg-teal-500 h-2.5 rounded-full" style="width: 0%"></div>
+                        </div>
+
+                        <h3 id="question-text" class="text-xl font-semibold mb-6 text-slate-800"></h3>
+                        <div id="options-container" class="space-y-3"></div>
+                        
+                        <div id="feedback-container" class="mt-6 hidden">
+                            <p id="feedback-text" class="p-4 rounded-lg"></p>
+                        </div>
+
+                        <div class="mt-6 text-right">
+                             <button id="check-answer-btn" onclick="checkAnswer()" class="bg-cyan-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-cyan-700 transition-colors">Comprobar</button>
+                             <button id="next-question-btn" onclick="nextQuestion()" class="hidden bg-teal-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-teal-700 transition-colors">Siguiente</button>
+                        </div>
+                    </div>
+
+                    <div id="quiz-results-screen" class="hidden text-center">
+                        <h2 class="text-2xl font-bold text-teal-900 mb-4">¡Test finalizado!</h2>
+                        <p class="text-lg mb-2">Tu puntuación final es:</p>
+                        <p class="text-3xl font-bold mb-6"><span id="final-correct" class="text-green-600"></span> aciertos y <span id="final-incorrect" class="text-red-600"></span> fallos.</p>
+                        <div id="review-button-container"></div>
+                        <button onclick="restartQuiz()" class="bg-slate-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-slate-700 transition-colors mt-4">Repetir Test</button>
+                    </div>
+                     <div id="quiz-review-screen" class="hidden">
+                        <h2 class="text-2xl font-bold text-teal-900 mb-6 text-center">Repaso de Errores</h2>
+                        <div id="review-content" class="space-y-6"></div>
+                        <div class="text-center mt-8">
+                             <button onclick="restartQuiz()" class="bg-teal-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-teal-700 transition-colors">Volver a Empezar</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Preguntas de Desarrollo -->
+            <section class="content-section">
+                <div class="bg-teal-100/60 p-6 rounded-2xl mb-8 border border-teal-200">
+                    <p class="text-teal-900 text-center">Esta sección contiene posibles preguntas de desarrollo para el examen. Haz clic en cada una para desplegar una respuesta concisa y bien fundamentada. Úsalas para practicar tu capacidad de síntesis y argumentación.</p>
+                </div>
+                <div id="development-questions-container" class="space-y-4">
+                    <!-- Las preguntas de desarrollo se insertarán aquí dinámicamente -->
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        const tabs = document.querySelectorAll('.tab');
+        const contentSections = document.querySelectorAll('.content-section');
+        let chartInstance = null;
+        
+        const quizData = [
+            { question: "¿Cuál es el paradigma más antiguo de la educación artística, centrado en la mímesis?", options: ["Desarrollo de la creatividad", "Comprensión de la Cultura Visual", "Vinculado al sistema productivo", "Como Disciplina (DBAE)"], answer: 2, explanation: "El paradigma vinculado al sistema productivo es el más antiguo y se centraba en la copia y el desarrollo de habilidades técnicas." },
+            { question: "Según Lowenfeld, el arte en la educación es principalmente...", options: ["Un producto final para exponer", "Un proceso para el desarrollo personal", "Una forma de documentar la realidad", "Una técnica para mejorar la motricidad"], answer: 1, explanation: "Viktor Lowenfeld fue un gran defensor del arte como un proceso que fomenta la libre expresión y el desarrollo integral del niño, más que como un producto final." },
+            { question: "La teoría de la Gestalt postula que...", options: ["La percepción es la suma de sus partes", "El todo es más que la suma de sus partes", "El aprendizaje es puramente conductual", "La creatividad no se puede enseñar"], answer: 1, explanation: "El principio fundamental de la Gestalt es que la mente organiza la percepción en totalidades estructuradas, donde el conjunto tiene un significado que no se encuentra en sus componentes individuales." },
+            { question: "¿Qué teórico afirmó que el dibujo infantil es fundamentalmente 'realista' en su intención?", options: ["Jean Dubuffet", "Howard Gardner", "Georges-Henri Luquet", "Lev Vygotsky"], answer: 2, explanation: "Georges-Henri Luquet sostuvo que el dibujo infantil es 'realista' porque los temas que trata son extraídos de su experiencia y realidad, aunque la representación no sea visualmente precisa." },
+            { question: "La tendencia más actual en educación artística, que analiza cómo los medios construyen significados sociales, se denomina...", options: ["Basada en la alfabetización visual", "Para la comprensión de la Cultura Visual", "Centrada en la Historia del Arte", "Desarrollo de la autoexpresión"], answer: 1, explanation: "La comprensión de la Cultura Visual es el enfoque más contemporáneo, y se centra en analizar críticamente todas las manifestaciones visuales de nuestra cultura (arte, cine, publicidad, etc.)." },
+            { question: "La función de la imagen que busca persuadir al espectador, como en la publicidad, es la función...", options: ["Fática", "Referencial", "Poética", "Conativa"], answer: 3, explanation: "La función conativa o apelativa es la que tiene como objetivo principal convencer al receptor para que actúe de una determinada manera." },
+            { question: "¿Qué inteligencia, según Howard Gardner, es fundamental en el área de Dibujo?", options: ["Lingüística", "Lógico-matemática", "Visual-espacial", "Corporal-cinestésica"], answer: 2, explanation: "La inteligencia visual-espacial es clave para el dibujo, ya que permite percibir el mundo visualmente, crear imágenes mentales y entender las relaciones espaciales." },
+            { question: "Aprender a través de la experiencia en un museo o un centro cultural se considera educación...", options: ["Formal", "No Formal", "Informal", "Asistemática"], answer: 1, explanation: "La educación No Formal es aquella que es intencionada y organizada pero ocurre fuera del sistema educativo reglado, como en talleres, museos o academias." },
+            { question: "Un PLE (Personal Learning Environment) se define como...", options: ["Un software que se instala en el ordenador", "Una plataforma educativa como Moodle", "El conjunto de herramientas, fuentes y conexiones que cada persona usa para aprender", "Únicamente las experiencias de la educación formal"], answer: 2, explanation: "El PLE es un concepto amplio que abarca el conjunto personal y único de recursos, herramientas y personas con las que cada individuo aprende, integrando los ámbitos formal, no formal e informal." },
+            { question: "La expresión 'Asignaturas María' se refiere a materias...", options: ["Impartidas por profesoras llamadas María", "Consideradas de menor importancia en el currículo", "Relacionadas con la teología", "Obligatorias y con mucho peso"], answer: 1, explanation: "Es una expresión coloquial usada para designar a las asignaturas que, socialmente o dentro del sistema educativo, se perciben como menos importantes o más fáciles de aprobar." },
+            { question: "La ley de la Gestalt que nos hace completar mentalmente una figura incompleta se llama...", options: ["Ley de Similaridad", "Ley de Cierre", "Ley de Continuidad", "Ley de Proximidad"], answer: 1, explanation: "La Ley de Cierre explica cómo nuestra mente tiende a completar o 'cerrar' las formas inacabadas para percibirlas como una totalidad coherente." },
+            { question: "¿Qué autor es famoso por sus etapas del desarrollo del dibujo infantil (garabato, preesquemática, etc.)?", options: ["Piaget", "Lowenfeld", "Vygotsky", "Gardner"], answer: 1, explanation: "Viktor Lowenfeld es el autor de referencia para las etapas del desarrollo gráfico infantil, que siguen siendo un pilar en la educación artística." },
+            { question: "El enfoque DBAE (Discipline-Based Art Education) integra la producción artística con...", options: ["Solo la técnica del dibujo", "La historia del arte, la crítica y la estética", "Las matemáticas y la geometría", "La expresión corporal y la música"], answer: 1, explanation: "El DBAE propone una educación artística completa que no solo se centra en el 'hacer' (producción), sino también en el 'comprender' a través de la historia, la crítica y la estética." },
+            { question: "La función de la imagen cuyo objetivo principal es llamar la atención se denomina...", options: ["Emotiva", "Referencial", "Fática", "Poética"], answer: 2, explanation: "La función fática se centra en el canal de comunicación y busca establecer, prolongar o interrumpir la comunicación, o simplemente, captar la atención." },
+            { question: "El aprendizaje que ocurre en la vida cotidiana, sin una planificación explícita, es la educación...", options: ["Formal", "No Formal", "Informal", "Directa"], answer: 2, explanation: "La educación informal es espontánea y se da a través de las experiencias diarias, la familia, los amigos y los medios de comunicación." },
+            { question: "¿Qué estrategia de enseñanza del dibujo se basa en conectar conceptos abstractos con experiencias del alumno?", options: ["Estrategia de la fantasía", "Estrategia multisensorial", "Estrategia del pensamiento visual", "Estrategia metafórica"], answer: 3, explanation: "La estrategia metafórica utiliza comparaciones y analogías para hacer comprensibles conceptos abstractos, relacionándolos con el mundo conocido del estudiante." },
+            { question: "La metodología en la que los alumnos reciben el contenido teórico en casa y usan el tiempo de clase para la práctica se llama...", options: ["Gamificación", "Aprendizaje Basado en Proyectos", "Aula Invertida (Flipped Classroom)", "Aprendizaje Basado en Problemas"], answer: 2, explanation: "El Aula Invertida o Flipped Classroom invierte el modelo tradicional: la instrucción directa se mueve fuera del aula y el tiempo de clase se usa para la práctica y la resolución de dudas." },
+            { question: "El uso de mecánicas de juego en contextos no lúdicos para aumentar la motivación es la...", options: ["Gamificación", "Estrategia de la fantasía", "Estrategia de experiencia", "Aula Invertida"], answer: 0, explanation: "La gamificación consiste en aplicar elementos y principios del diseño de juegos (puntos, niveles, recompensas) en el aula para hacer el aprendizaje más atractivo y motivador." },
+            { question: "¿Cuál es la principal diferencia entre el ABP (Aprendizaje Basado en Proyectos) y el PBL (Aprendizaje Basado en Problemas)?", options: ["El ABP es individual y el PBL es en grupo", "El ABP se enfoca en un producto final, el PBL en el proceso de aprendizaje", "El ABP no usa tecnología, el PBL sí", "No hay ninguna diferencia, son lo mismo"], answer: 1, explanation: "Aunque ambos son métodos activos, la distinción clave es que el ABP culmina con la creación de un producto o servicio tangible, mientras que el PBL se centra más en el proceso de investigación y resolución del problema en sí." },
+            { question: "Una adaptación curricular que modifica los objetivos y contenidos esenciales del currículo es una medida de carácter...", options: ["Ordinario", "No significativa", "Extraordinario", "De refuerzo"], answer: 2, explanation: "Las medidas extraordinarias, como las adaptaciones curriculares significativas, son las que alteran los elementos prescriptivos del currículo y se aplican cuando las medidas ordinarias son insuficientes." },
+            { question: "El término 'Art Brut' fue acuñado por...", options: ["Viktor Lowenfeld", "Pablo Picasso", "Jean Dubuffet", "Salvador Dalí"], answer: 2, explanation: "El artista francés Jean Dubuffet acuñó el término 'Art Brut' (Arte Bruto o Marginal) para describir el arte creado fuera de los límites de la cultura oficial y académica." },
+            { question: "¿Qué estrategia de enseñanza se enfoca en el 'aprender haciendo' y usando varios sentidos?", options: ["Metafórica", "Multisensorial", "De la fantasía", "De experiencia"], answer: 1, explanation: "La estrategia multisensorial integra la vista, el tacto, el oído y el movimiento (cinestesia) en el aprendizaje, partiendo de la idea de que 'necesitamos tocar para aprender'." },
+            { question: "Las adaptaciones curriculares no significativas son un ejemplo de medida de atención a la diversidad de carácter...", options: ["Extraordinario", "Urgente", "Ordinario", "Específico"], answer: 2, explanation: "Las medidas ordinarias son aquellas que no alteran los elementos esenciales del currículo. Las adaptaciones no significativas (cambios en metodología, tiempos, etc.) son el ejemplo más claro." },
+            { question: "En el PBL (Aprendizaje Basado en Problemas), el punto de partida es...", options: ["Un producto a diseñar", "Un problema real o hipotético", "Una lección magistral del profesor", "Un videojuego"], answer: 1, explanation: "Como su nombre indica, el PBL se inicia con el planteamiento de un problema que los estudiantes deben analizar y resolver a través de la investigación." },
+            { question: "El arte creado por personas ajenas al mundo académico, como autodidactas o enfermos psiquiátricos, se conoce como...", options: ["Arte Pop", "Surrealismo", "Art Brut", "Impresionismo"], answer: 2, explanation: "Art Brut es el término que designa estas creaciones espontáneas y puras, al margen de las normas estéticas convencionales." },
+            { question: "Relacionar el contenido del dibujo con posibles salidas profesionales es un ejemplo de la estrategia...", options: ["De la fantasía", "De experiencia", "Metafórica", "Multisensorial"], answer: 1, explanation: "La estrategia de experiencia busca conectar lo que se aprende en el aula con el mundo real, mostrando su utilidad y aplicaciones prácticas o profesionales para aumentar la motivación." },
+            { question: "¿Qué metodología sitúa al alumno como protagonista, trabajando en grupo para crear un producto final?", options: ["Clase magistral", "Aprendizaje memorístico", "Aprendizaje Basado en Proyectos (ABP)", "Examen tradicional"], answer: 2, explanation: "El ABP es una metodología activa en la que los estudiantes trabajan de forma colaborativa durante un período de tiempo para investigar y responder a una pregunta o problema complejo, culminando en un producto final." },
+            { question: "Un programa de refuerzo (PTI) es una medida de carácter...", options: ["Extraordinario", "Ordinario", "Excepcional", "Permanente"], answer: 1, explanation: "Los Programas de Tratamiento Personalizado (PTI) o programas de refuerzo son medidas ordinarias destinadas a ayudar al alumnado con dificultades sin modificar los objetivos del ciclo." },
+            { question: "La principal característica de las medidas extraordinarias de atención a la diversidad es que...", options: ["Se aplican a todos los alumnos por igual", "No necesitan evaluación previa", "Pueden modificar elementos prescriptivos del currículo", "Solo las aplica el tutor"], answer: 2, explanation: "La característica definitoria de las medidas extraordinarias es que, tras una evaluación psicopedagógica, permiten modificar objetivos, contenidos y criterios de evaluación para un alumno." },
+            { question: "Diseñar un objeto con funciones completamente nuevas usando la imaginación es un ejemplo de la estrategia...", options: ["De la fantasía", "De experiencia", "Del pensamiento visual", "Multisensorial"], answer: 0, explanation: "La estrategia de la fantasía se basa en la imaginación y la creatividad como medios de aprendizaje, fomentando la creación autónoma y el diseño original." },
+            { question: "¿Qué corriente pedagógica considera que el aprendizaje es un cambio observable en la conducta?", options: ["Cognitivismo", "Constructivismo", "Conductismo", "Conectivismo"], answer: 2, explanation: "El conductismo se centra exclusivamente en la conducta observable, entendiendo el aprendizaje como una asociación entre un estímulo y una respuesta." },
+            { question: "El concepto de 'aprendizaje significativo' fue propuesto por Ausubel dentro de la corriente...", options: ["Conductista", "Cognitivista", "Constructivista", "Conectivista"], answer: 1, explanation: "El cognitivismo marcó un giro al estudiar los procesos mentales internos. Ausubel, dentro de esta corriente, diferenció el aprendizaje significativo (que se conecta con conocimientos previos) del memorístico." },
+            { question: "La teoría que sostiene que el alumno 'construye' activamente su propio conocimiento es el...", options: ["Conductismo", "Cognitivismo", "Constructivismo", "Conectivismo"], answer: 2, explanation: "El constructivismo, con precursores como Piaget y Vygotsky, postula que el conocimiento no se recibe pasivamente, sino que es construido por el sujeto en interacción con su entorno." },
+            { question: "¿Cuál es la teoría del aprendizaje propia de la era digital, que afirma que el conocimiento reside en las redes?", options: ["Conductismo", "Cognitivismo", "Constructivismo", "Conectivismo"], answer: 3, explanation: "El conectivismo, desarrollado por Siemens y Downes, es la teoría más reciente y explica el aprendizaje en un mundo conectado, donde la capacidad de encontrar y filtrar información es clave." },
+            { question: "El 'Efecto Pigmalión' en el aula se refiere a...", options: ["La influencia de la mitología en el arte", "La importancia de la limpieza en el aula", "Cómo las expectativas del profesor influyen en el rendimiento del alumno", "Un método de dibujo de estatuas"], answer: 2, explanation: "El Efecto Pigmalión demuestra que las altas expectativas del docente pueden mejorar el rendimiento del alumno, y viceversa, las bajas expectativas pueden limitarlo." },
+            { question: "Un 'Profesor como DJ', a diferencia de un 'profesor karaoke', es aquel que...", options: ["Pone música en clase", "Repite siempre la misma lección", "Explora, selecciona, mezcla y crea contenido nuevo", "Solo usa recursos digitales"], answer: 2, explanation: "Este nuevo estilo docente, propuesto por María Acaso, describe al profesor que no es un mero transmisor, sino un creador de experiencias educativas únicas a partir de diversas fuentes." },
+            { question: "En el modelo de 'Ingeniería Secuencial', los departamentos trabajan de forma...", options: ["Colaborativa y simultánea", "Aislada y lineal", "Desorganizada", "Virtual"], answer: 1, explanation: "La ingeniería secuencial es el modelo tradicional donde el producto pasa de un departamento a otro en una secuencia lineal, sin retroalimentación entre ellos." },
+            { question: "La 'transversalidad' en educación se refiere a...", options: ["Una asignatura específica sobre valores", "Un enfoque que integra ciertos valores y competencias en todas las materias", "Dar más importancia a las asignaturas de ciencias", "Aprender a escribir en cursiva"], answer: 1, explanation: "La transversalidad busca educar en valores y competencias clave (igualdad, sostenibilidad, etc.) de forma integrada a lo largo de todo el currículo, no como una materia aislada." },
+            { question: "La tecnología que superpone información digital sobre el mundo real a través de una cámara se llama...", options: ["Realidad Virtual (RV)", "Realidad Aumentada (RA)", "Inteligencia Artificial (IA)", "Internet de las Cosas (IoT)"], answer: 1, explanation: "La Realidad Aumentada (RA) enriquece nuestra percepción del mundo real añadiendo capas de información virtual, a diferencia de la RV que nos sumerge en un mundo completamente digital." },
+            { question: "Según Piaget, el conocimiento se modifica mediante los procesos de...", options: ["Estímulo y respuesta", "Asimilación y acomodación", "Ensayo y error", "Lectura y escritura"], answer: 1, explanation: "Para Piaget, la asimilación es la incorporación de nueva información a nuestras estructuras mentales existentes, y la acomodación es la modificación de esas estructuras para acoger la nueva información." },
+            { question: "Un profesor que empodera a sus alumnos para que sean protagonistas de su aprendizaje adopta un estilo de...", options: ["Profesor como Hacker", "Profesor como DJ", "Profesor como Coach", "Profesor Karaoke"], answer: 2, explanation: "El estilo de 'Profesor como Coach' se centra en entrenar habilidades y actitudes, motivando y empoderando al alumnado para que alcance su máximo potencial." },
+            { question: "La principal ventaja de la 'Ingeniería Concurrente' es...", options: ["La rapidez en la producción inicial", "El bajo coste de diseño", "La mejora de la calidad del producto final gracias a la retroalimentación", "La simplicidad del proceso"], answer: 2, explanation: "Aunque el diseño inicial puede ser más largo, la ingeniería concurrente mejora la calidad y reduce errores costosos al permitir una colaboración y retroalimentación constantes entre todos los departamentos." },
+            { question: "¿Qué ley educativa actual (LOMLOE) define los elementos transversales como la comprensión lectora o la competencia digital?", options: ["LOGSE", "LOMCE", "LOE", "LOMLOE"], answer: 3, explanation: "La LOMLOE es la ley educativa vigente y establece los elementos transversales que deben ser trabajados en todas las áreas y materias del currículo." },
+            { question: "¿Qué corriente pedagógica pone el foco en los procesos mentales como la memoria, la percepción y la atención?", options: ["Conductismo", "Cognitivismo", "Constructivismo", "Conectivismo"], answer: 1, explanation: "El cognitivismo supuso una reacción al conductismo, centrando su estudio en la 'caja negra' de la mente, es decir, en los procesos cognitivos internos." },
+            { question: "La idea de que el profesor debe ser un 'facilitador' del aprendizaje es central en el...", options: ["Conductismo", "Cognitivismo", "Constructivismo", "Modelo tradicional"], answer: 2, explanation: "En el constructivismo, el rol del docente cambia de ser un transmisor de información a ser un guía o facilitador que crea las condiciones para que el alumno construya su propio conocimiento." },
+            { question: "Ver a la escuela como un 'target group' o consumidor de productos culturales es una visión propia de...", options: ["La pedagogía crítica", "La relación ideal escuela-museo", "Una lógica de marketing en los museos", "La LOMLOE"], answer: 2, explanation: "Esta visión considera a los centros escolares como un público objetivo al que dirigir una oferta cultural, priorizando a menudo el número de visitantes sobre una colaboración pedagógica real." },
+            { question: "El uso de videojuegos en el aula está relacionado con la metodología de...", options: ["Clase magistral", "Gamificación", "Aprendizaje memorístico", "Evaluación sumativa"], answer: 1, explanation: "El uso didáctico de videojuegos es un ejemplo de gamificación, ya que aprovecha su capacidad de motivación y compromiso para alcanzar objetivos de aprendizaje." },
+            { question: "Un profesor que desafía el sistema para mejorarlo y siente pasión por la innovación se asemeja al estilo de...", options: ["Profesor como DJ", "Profesor como Coach", "Profesor como Hacker", "Profesor como Community Manager"], answer: 2, explanation: "El 'Profesor como Hacker' se caracteriza por su curiosidad, su deseo de entender y mejorar el sistema educativo y su pasión por compartir el conocimiento de forma abierta." },
+            { question: "La Realidad Virtual (RV) se diferencia de la Realidad Aumentada (RA) en que...", options: ["La RV es más barata", "La RV te sumerge en un mundo 100% digital, mientras la RA superpone información en el mundo real", "La RA no necesita un dispositivo, la RV sí", "No hay diferencia"], answer: 1, explanation: "La diferencia fundamental es el nivel de inmersión: la RV crea un entorno completamente nuevo y artificial, mientras que la RA mantiene al usuario en el mundo real y lo enriquece con elementos virtuales." },
+            { question: "El aprendizaje mecánico o memorístico se opone al...", options: ["Aprendizaje conductista", "Aprendizaje significativo", "Aprendizaje por repetición", "Aprendizaje observacional"], answer: 1, explanation: "El aprendizaje significativo, propuesto por Ausubel, es aquel que se comprende y se integra en la estructura cognitiva del alumno, a diferencia del mecánico, que es una mera repetición sin conexión." },
+            { question: "La idea de Vygotsky de 'zona de desarrollo próximo' se refiere a...", options: ["El espacio físico del aula", "Lo que un alumno puede aprender con ayuda de otro más capaz", "La etapa final del desarrollo cognitivo", "La memoria a corto plazo"], answer: 1, explanation: "La ZDP es la distancia entre lo que un estudiante puede hacer por sí solo y lo que puede lograr con la guía de un adulto o la colaboración de un compañero más competente." },
+            { question: "Cuando un museo ofrece una visita guiada estándar sin tener en cuenta las necesidades del grupo escolar, está tratando a la escuela como...", options: ["Un colaborador pedagógico", "Un agente de cambio social", "Un 'target group'", "Un centro de investigación"], answer: 2, explanation: "Este enfoque responde a una lógica de 'producto' donde se ofrece una experiencia estandarizada, considerando al grupo escolar como un consumidor pasivo más que como un agente activo en el proceso educativo." },
+            { question: "Gestionar una comunidad de aprendizaje online es la labor principal del...", options: ["Profesor como DJ", "Profesor como Coach", "Profesor como Hacker", "Profesor como Community Manager"], answer: 3, explanation: "Este estilo docente se inspira en el rol del community manager para crear, gestionar y dinamizar comunidades de aprendizaje en entornos digitales y redes sociales." },
+            { question: "¿Qué modelo de diseño es más lento en su fase inicial pero resulta en productos de mayor calidad?", options: ["Ingeniería Secuencial", "Diseño Aleatorio", "Ingeniería Concurrente", "Modelo en Cascada"], answer: 2, explanation: "La Ingeniería Concurrente dedica más tiempo a la fase de diseño y planificación, involucrando a todos los departamentos desde el principio. Esto, aunque más lento al inicio, previene errores y mejora la calidad final." },
+            { question: "La LOMLOE pone énfasis en el desarrollo de...", options: ["Contenidos puramente memorísticos", "Competencias clave", "Un único tipo de inteligencia", "Exámenes estandarizados"], answer: 1, explanation: "Uno de los pilares de la LOMLOE es el currículo basado en competencias clave, que buscan un aprendizaje más aplicado y transferible a situaciones de la vida real." },
+            { question: "El uso de la taxonomía de Bloom es una aportación del...", options: ["Conductismo", "Constructivismo", "Cognitivismo", "Conectivismo"], answer: 2, explanation: "El cognitivismo se centró en la planificación de la enseñanza. La taxonomía de Bloom, que clasifica los objetivos educativos en niveles de complejidad (recordar, comprender, aplicar...), fue una herramienta clave en este enfoque." },
+            { question: "La crítica principal al conductismo es que...", options: ["Es demasiado complicado", "No considera los procesos mentales internos", "No utiliza refuerzos", "Solo se aplica en animales"], answer: 1, explanation: "El conductismo fue criticado por su visión de 'caja negra' de la mente, ya que se negaba a estudiar los procesos cognitivos internos que median entre el estímulo y la respuesta." },
+            { question: "Un profesor que tiene bajas expectativas sobre un alumno puede, sin quererlo, empeorar su rendimiento. Esto es un ejemplo del...", options: ["Efecto Hawthorne", "Efecto Placebo", "Efecto Pigmalión", "Efecto Mariposa"], answer: 2, explanation: "El Efecto Pigmalión, o profecía autocumplida, describe cómo las creencias y expectativas de una persona sobre otra pueden influir en el comportamiento de esta última." },
+            { question: "La Web 2.0 se caracteriza por...", options: ["Ser estática y de solo lectura", "La interactividad y la participación del usuario", "Funcionar únicamente con Internet Explorer", "Ser la base de la Realidad Virtual"], answer: 1, explanation: "El gran cambio de la Web 2.0 fue pasar de un modelo de consumo de información (Web 1.0) a un modelo de participación, donde los usuarios crean y comparten contenido (blogs, redes sociales, wikis)." },
+            { question: "El enfoque que enriquece el currículo con temas como la educación para la paz o la igualdad de género es la...", options: ["Evaluación", "Programación", "Transversalidad", "Gamificación"], answer: 2, explanation: "La transversalidad permite que ciertos ejes temáticos considerados fundamentales para la formación ciudadana 'atraviesen' todas las áreas del currículo." },
+            { question: "El modelo donde el producto pasa de un departamento a otro sin retroalimentación es la...", options: ["Ingeniería Concurrente", "Ingeniería Inversa", "Ingeniería Secuencial", "Ingeniería de Software"], answer: 2, explanation: "La Ingeniería Secuencial sigue un flujo lineal (Diseño -> Producción -> Marketing), lo que puede generar problemas si se detecta un error en una fase avanzada." },
+            { question: "La capacidad de discriminar información relevante en la red es una habilidad clave en el...", options: ["Conductismo", "Cognitivismo", "Constructivismo", "Conectivismo"], answer: 3, explanation: "En el Conectivismo, donde el conocimiento está distribuido en redes, una competencia fundamental es saber navegar, evaluar y sintetizar la vasta cantidad de información disponible." },
+            { question: "¿Quién es considerado, junto a Piaget, uno de los grandes precursores del constructivismo?", options: ["Skinner", "Ausubel", "Vygotsky", "Gardner"], answer: 2, explanation: "Lev Vygotsky, con su énfasis en el aprendizaje social y la 'zona de desarrollo próximo', es una figura central del constructivismo, complementando la visión más individual de Piaget." },
+            { question: "La idea de que 'el todo es más que la suma de sus partes' pertenece a la...", options: ["Teoría del color", "Psicología Conductista", "Teoría de la Gestalt", "Teoría de la Información"], answer: 2, explanation: "Este es el lema principal de la Teoría de la Gestalt, que estudia cómo la mente organiza la percepción en totalidades significativas." },
+            { question: "El paradigma de la educación artística que se enfoca en el arte como lenguaje con reglas se basa en la...", options: ["Autoexpresión", "Historia del Arte", "Alfabetización visual", "Cultura Visual"], answer: 2, explanation: "El enfoque basado en la percepción y la alfabetización visual considera el arte como un lenguaje con elementos (punto, línea, color) y una sintaxis (composición), lo que facilita su enseñanza." },
+            { question: "Un taller de impresión 3D en el aula es un ejemplo de la estrategia...", options: ["Metafórica", "Multisensorial", "De la fantasía", "De experiencia"], answer: 1, explanation: "Esta actividad es multisensorial porque implica el tacto y la manipulación, y también de experiencia, porque conecta el diseño digital con un producto físico y real, mostrando la utilidad de la materia." },
+            { question: "En el Aula Invertida, ¿dónde se realiza la instrucción directa o lección teórica?", options: ["En el aula, con el profesor", "En casa, a través de vídeos o lecturas", "No hay lección teórica", "En la biblioteca, en grupo"], answer: 1, explanation: "La idea es 'invertir' el aula: el alumno recibe la teoría fuera de clase para que el tiempo presencial se dedique a actividades prácticas y a resolver dudas con el profesor." },
+            { question: "Las adaptaciones curriculares significativas requieren, con carácter previo, una...", options: ["Autorización familiar", "Evaluación psicopedagógica", "Prueba de nivel de todo el grupo", "Reunión de claustro"], answer: 1, explanation: "Dado que modifican elementos esenciales del currículo, estas medidas extraordinarias solo se pueden aplicar tras una evaluación psicopedagógica que determine la necesidad específica del alumno." },
+            { question: "El 'Profesor Karaoke' es un término usado para criticar al docente que...", options: ["Innova constantemente", "Se limita a reproducir contenidos de otros", "Utiliza la música para enseñar", "Evalúa de forma creativa"], answer: 1, explanation: "Acuñado por María Acaso, el 'Profesor Karaoke' es una metáfora del docente que actúa como un mero transmisor, repitiendo el contenido del libro de texto sin aportar una visión propia o crear una experiencia de aprendizaje personal." },
+            { question: "El objetivo de la educación artística entendida como 'desarrollo de la creatividad y la autoexpresión' es...", options: ["Copiar a los grandes maestros", "Liberar al alumno para que se exprese sin trabas", "Aprender las reglas de la composición", "Producir objetos bellos"], answer: 1, explanation: "Este paradigma, influido por el psicoanálisis, reacciona contra la rigidez de la copia y busca que el arte sea un vehículo para la expresión personal y la liberación emocional del individuo." },
+            { question: "Cuando un alumno incorpora nueva información a sus esquemas mentales sin modificarlos, Piaget lo llama...", options: ["Acomodación", "Asimilación", "Equilibrio", "Conflicto cognitivo"], answer: 1, explanation: "La asimilación es el proceso de integrar nueva información en las estructuras cognitivas existentes. Cuando estas estructuras deben cambiar para acoger la información, se produce la acomodación." },
+            { question: "Una visita a una exposición donde los alumnos construyen el significado de forma participativa es una alternativa a...", options: ["La visita-taller", "La visita guiada tradicional", "El trabajo en el aula", "La evaluación final"], answer: 1, explanation: "La visita guiada tradicional, a menudo pasiva y unidireccional, se está revisando críticamente para dar paso a modelos más dialógicos y participativos donde el visitante es un agente activo." },
+            { question: "¿Cuál de estas tecnologías NO es mencionada como clave para el futuro de la educación artística en el temario?", options: ["Realidad Aumentada", "Impresoras 3D", "Programas CAD", "Máquinas de escribir"], answer: 3, explanation: "El temario se enfoca en tecnologías digitales avanzadas como CAD, impresión 3D, RV y RA como herramientas que están transformando la enseñanza del diseño y el arte." },
+            { question: "La crítica al paradigma centrado en la Historia del Arte es que...", options: ["Es demasiado práctico", "Suele dejar fuera el arte contemporáneo", "No tiene en cuenta a los grandes maestros", "Es demasiado fácil de evaluar"], answer: 1, explanation: "Una de las limitaciones de este enfoque es que, al seguir un orden cronológico, a menudo no llega a cubrir el arte contemporáneo, lo que puede hacer que el alumno perciba el arte como algo lejano y ajeno a su realidad." },
+            { question: "¿En qué corriente pedagógica el profesor es visto como una autoridad que modela la conducta del alumno?", options: ["Constructivismo", "Conectivismo", "Cognitivismo", "Conductismo"], answer: 3, explanation: "En el modelo conductista, el profesor es el centro del proceso, el que dispensa los estímulos y los refuerzos para conseguir la conducta deseada en un alumno que es considerado un receptor pasivo." },
+            { question: "El libro de artista y el portafolio son herramientas que favorecen principalmente...", options: ["La evaluación sumativa", "La competición entre alumnos", "La autoevaluación y la reflexión sobre el proceso", "El aprendizaje memorístico"], answer: 2, explanation: "Ambas herramientas son excelentes para que el alumno recopile su trabajo, reflexione sobre su propio proceso de aprendizaje, identifique sus avances y desarrolle la autocrítica." }
+        ];
+
+        const developmentQuestions = [
+            { question: "Diferencias entre medidas ordinarias y extraordinarias de atención a la diversidad.", answer: "Las medidas ordinarias son estrategias que no modifican los elementos esenciales del currículo, como las adaptaciones no significativas en metodología o los programas de refuerzo. En cambio, las medidas extraordinarias se aplican cuando las ordinarias son insuficientes, requieren una evaluación psicopedagógica previa y sí pueden modificar elementos prescriptivos del currículo, como los objetivos y contenidos, a través de adaptaciones curriculares significativas." },
+            { question: "Explica el paradigma de la Educación Artística para la comprensión de la Cultura Visual.", answer: "Es el enfoque más actual y entiende que el arte es solo una parte de un universo visual más amplio que incluye publicidad, cine, internet y otros medios. Su objetivo es desarrollar en el alumnado una comprensión crítica de cómo estas imágenes construyen significados sociales, culturales e ideológicos, convirtiéndolos en lectores críticos de su entorno visual en lugar de meros consumidores pasivos." },
+            { question: "Compara la Ingeniería Secuencial y la Ingeniería Concurrente.", answer: "La Ingeniería Secuencial es un modelo de producción lineal y tradicional donde cada departamento trabaja de forma aislada, pasando el proyecto al siguiente en una cadena. Por el contrario, la Ingeniería Concurrente es un modelo colaborativo en el que todos los departamentos (diseño, producción, marketing) trabajan juntos desde el inicio, permitiendo una retroalimentación constante que, aunque puede alargar la fase de diseño, mejora la calidad final del producto y reduce errores costosos." },
+            { question: "Define el concepto de 'Efecto Pigmalión' en el contexto educativo.", answer: "El Efecto Pigmalión describe cómo las expectativas que un profesor tiene sobre un alumno pueden influir directamente en su rendimiento y comportamiento. Si un docente cree y demuestra que un estudiante es capaz, es más probable que este desarrolle confianza y mejore académicamente, mientras que unas bajas expectativas pueden limitar su potencial, convirtiéndose en una profecía autocumplida." },
+            { question: "Describe los cuatro estilos docentes del siglo XXI (Hacker, DJ, Coach, Community Manager).", answer: "Estos nuevos roles proponen un docente que es Hacker (innovador que desafía el sistema para mejorarlo), DJ (creador que mezcla diversas fuentes para generar un contenido educativo único), Coach (entrenador que empodera y motiva al alumnado) y Community Manager (gestor de comunidades de aprendizaje en entornos digitales)." },
+            { question: "¿Qué es el Art Brut y quién acuñó el término?", answer: "El Art Brut, o Arte Marginal, es un término acuñado por el artista Jean Dubuffet para referirse al arte creado por personas ajenas a la cultura artística oficial y sin formación académica, como niños, enfermos psiquiátricos o autodidactas. Se caracteriza por su pureza, espontaneidad y autonomía creativa, al margen de las convenciones estéticas y del mercado del arte." },
+            { question: "Diferencias clave entre el Aprendizaje Basado en Proyectos (ABP) y el Aprendizaje Basado en Problemas (PBL).", answer: "Aunque ambas son metodologías activas, la diferencia principal radica en su enfoque. El ABP se centra en la creación de un producto, presentación o resultado final tangible como respuesta a una pregunta compleja. El PBL, en cambio, se centra más en el proceso de investigación y aprendizaje que los alumnos siguen para dar solución a un problema planteado, que puede ser real o hipotético." },
+            { question: "Explica la teoría del Conectivismo en el aprendizaje.", answer: "El Conectivismo es una teoría para la era digital que postula que el aprendizaje ya no es solo un proceso interno e individual, sino que el conocimiento reside en la diversidad de opiniones y en las redes de conexión. Sostiene que la capacidad de establecer conexiones, encontrar fuentes y filtrar información es más importante que el conocimiento memorizado, y que el aprendizaje puede residir en dispositivos no humanos." },
+            { question: "¿En qué consiste la metodología de Aula Invertida o Flipped Classroom?", answer: "La metodología de Aula Invertida invierte el modelo educativo tradicional. La instrucción directa y la transmisión de contenidos teóricos se realizan fuera del aula, generalmente a través de vídeos o lecturas que el alumno prepara en casa, mientras que el tiempo en clase se dedica a actividades prácticas, resolución de dudas y trabajo colaborativo, con el docente actuando como guía." },
+            { question: "Describe brevemente la teoría de las Inteligencias Múltiples de Howard Gardner y su relevancia para la educación artística.", answer: "Howard Gardner propuso que no existe una única inteligencia, sino al menos ocho capacidades distintas (lingüística, lógico-matemática, musical, etc.). Para la educación artística, esto es crucial porque valida la inteligencia visual-espacial, que es la capacidad de percibir el mundo visualmente, crear imágenes mentales y entender las relaciones espaciales, legitimando el dibujo y las artes como un campo fundamental para el desarrollo cognitivo." },
+            { question: "¿Qué es un PLE (Entorno Personal de Aprendizaje) y qué ámbitos integra?", answer: "Un PLE es el conjunto de herramientas, fuentes de información, conexiones y actividades que cada persona utiliza de forma asidua y única para aprender. No es un software, sino un concepto que integra las experiencias de los tres ámbitos de la educación: el formal (instituciones regladas), el no formal (museos, talleres) y el informal (experiencias de la vida, internet)." },
+            { question: "Explica la importancia de la Transversalidad en el currículo según la LOMLOE.", answer: "La transversalidad es un enfoque que busca integrar ciertos contenidos y valores fundamentales, como la comprensión lectora, la competencia digital, la igualdad de género o la sostenibilidad, en todas las áreas del currículo. La LOMLOE la considera clave para una formación integral del alumnado, asegurando que estos aprendizajes no queden aislados en una sola materia, sino que se trabajen de forma global." },
+            { question: "¿Cuál es el postulado principal de la teoría de la Gestalt y cómo se aplica a la percepción visual?", answer: "El postulado principal de la Gestalt es que 'el todo es más que la suma de sus partes', lo que significa que nuestra mente organiza la percepción en totalidades estructuradas y con sentido, en lugar de procesar los estímulos como fragmentos aislados. En la percepción visual, esto se manifiesta a través de leyes como la de cierre (completamos figuras incompletas) o la de figura-fondo (diferenciamos el objeto principal del entorno)." },
+            { question: "Compara la visión del constructivismo de Piaget y Vygotsky.", answer: "Ambos son padres del constructivismo, pero tienen enfoques distintos. Para Piaget, el desarrollo cognitivo es un proceso que va 'de dentro hacia afuera', donde el individuo construye el conocimiento a través de su interacción con el medio (asimilación y acomodación). Para Vygotsky, el proceso va 'de fuera hacia adentro', enfatizando el papel crucial de la interacción social y el lenguaje como herramientas culturales que moldean el pensamiento." },
+            { question: "¿Qué se entiende por 'alfabetización visual' y por qué es importante en la sociedad actual?", answer: "La alfabetización visual es la capacidad de interpretar, analizar, evaluar y crear mensajes visuales. Es fundamental en la sociedad contemporánea, que está saturada de imágenes (publicidad, redes sociales, medios), para poder comprender críticamente sus intenciones, evitar la manipulación y no ser meros consumidores pasivos de la información que transmiten." },
+            { question: "Describe la Estrategia Multisensorial en la enseñanza del dibujo.", answer: "La Estrategia Multisensorial se basa en la idea de que se aprende mejor integrando varios sentidos, no solo la vista. En dibujo, implica 'aprender haciendo y tocando', es decir, fomentar la manipulación directa de herramientas (compás, escuadra) y materiales para que el alumno, a través de la acción y el movimiento (cinestesia), desarrolle una comprensión práctica y profunda de los conceptos." },
+            { question: "¿Cómo se relaciona la visión de la escuela como 'target group' por parte de los museos con la participación educativa?", answer: "Cuando un museo ve a la escuela como un 'target group', la está tratando como un consumidor de sus productos culturales (visitas, talleres), priorizando lógicas de marketing y número de asistentes. Esto limita la participación educativa real, ya que la escuela se convierte en un receptor pasivo de una oferta estandarizada en lugar de ser un agente colaborador activo en el diseño de una experiencia pedagógica significativa y adaptada a su currículo." },
+            { question: "Diferencia entre Realidad Virtual (RV) y Realidad Aumentada (RA) y sus aplicaciones en la educación artística.", answer: "La Realidad Virtual (RV) sumerge al usuario en un entorno completamente digital y simulado, bloqueando el mundo real. En arte, permite visitar museos virtualmente o crear obras en espacios tridimensionales. La Realidad Aumentada (RA), en cambio, superpone información digital (imágenes, textos) sobre el entorno real a través de un dispositivo, enriqueciéndolo. Sus aplicaciones artísticas incluyen ver la policromía original de una escultura o reconstruir un edificio en ruinas." },
+            { question: "Explica el concepto de aprendizaje significativo de Ausubel en contraposición al aprendizaje mecánico.", answer: "El aprendizaje mecánico es la memorización de información de forma literal y arbitraria, sin conectarla con conocimientos previos, lo que provoca que se olvide fácilmente. Por el contrario, el aprendizaje significativo, propuesto por David Ausubel, se produce cuando el nuevo conocimiento se relaciona de manera sustancial y no arbitraria con la estructura cognitiva del alumno, generando una comprensión real y duradera." },
+            { question: "¿Por qué el paradigma de la educación artística vinculado a la creatividad y autoexpresión reacciona contra el modelo productivo?", answer: "Este paradigma reacciona contra la rigidez y el enfoque puramente técnico del modelo productivo, que se basaba en la copia y la norma artesanal. Influido por el psicoanálisis y el valor de la espontaneidad, ve el arte no como la adquisición de una habilidad, sino como un medio para la libre expresión de los sentimientos, la imaginación y la individualidad del alumno, valorando el proceso creativo por encima del resultado final." }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let incorrectAnswers = [];
+        let selectedOption = null;
+        let answerChecked = false;
+
+        function showTab(index, element) {
+            tabs.forEach(tab => tab.classList.remove('active-tab'));
+            element.classList.add('active-tab');
+
+            contentSections.forEach(section => section.classList.remove('active'));
+            contentSections[index].classList.add('active');
+
+            if (index === 2 && !chartInstance) {
+                renderChart();
+            }
+        }
+        
+        function toggleCard(element) {
+            element.classList.toggle('open');
+        }
+
+        function startQuiz() {
+            document.getElementById('quiz-start-screen').classList.add('hidden');
+            document.getElementById('quiz-main-screen').classList.remove('hidden');
+            currentQuestionIndex = 0;
+            score = 0;
+            incorrectAnswers = [];
+            document.getElementById('score-correct').textContent = score;
+            document.getElementById('score-incorrect').textContent = '0';
+            showQuestion();
+        }
+
+        function restartQuiz() {
+            document.getElementById('quiz-results-screen').classList.add('hidden');
+            document.getElementById('quiz-review-screen').classList.add('hidden');
+            document.getElementById('quiz-start-screen').classList.remove('hidden');
+        }
+
+        function showQuestion() {
+            answerChecked = false;
+            selectedOption = null;
+            const questionData = quizData[currentQuestionIndex];
+            
+            document.getElementById('progress-bar').style.width = `${((currentQuestionIndex) / quizData.length) * 100}%`;
+            document.getElementById('question-counter').textContent = `Pregunta ${currentQuestionIndex + 1} de ${quizData.length}`;
+            document.getElementById('question-text').textContent = questionData.question;
+            
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            questionData.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.innerHTML = option;
+                button.className = 'quiz-option w-full text-left p-4 border-2 border-slate-200 rounded-lg hover:bg-teal-100/60';
+                button.onclick = () => selectAnswer(index, button);
+                optionsContainer.appendChild(button);
+            });
+
+            document.getElementById('feedback-container').classList.add('hidden');
+            document.getElementById('check-answer-btn').classList.remove('hidden');
+            document.getElementById('next-question-btn').classList.add('hidden');
+            document.getElementById('check-answer-btn').disabled = true;
+        }
+
+        function selectAnswer(index, element) {
+            if (answerChecked) return;
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedOption = index;
+            document.getElementById('check-answer-btn').disabled = false;
+        }
+
+        function checkAnswer() {
+            if (selectedOption === null) return;
+            answerChecked = true;
+            const questionData = quizData[currentQuestionIndex];
+            const options = document.querySelectorAll('.quiz-option');
+            
+            options.forEach(opt => opt.disabled = true);
+
+            const feedbackContainer = document.getElementById('feedback-container');
+            const feedbackText = document.getElementById('feedback-text');
+
+            if (selectedOption === questionData.answer) {
+                score++;
+                document.getElementById('score-correct').textContent = score;
+                options[selectedOption].classList.add('correct');
+                feedbackText.innerHTML = `<strong class="text-green-700">¡Correcto!</strong> ${questionData.explanation}`;
+                feedbackText.className = 'p-4 rounded-lg bg-green-100 text-green-800 border border-green-200';
+            } else {
+                incorrectAnswers.push(questionData);
+                document.getElementById('score-incorrect').textContent = incorrectAnswers.length;
+                options[selectedOption].classList.add('incorrect');
+                options[questionData.answer].classList.add('correct');
+                feedbackText.innerHTML = `<strong class="text-red-700">Incorrecto.</strong> ${questionData.explanation}`;
+                feedbackText.className = 'p-4 rounded-lg bg-red-100 text-red-800 border border-red-200';
+            }
+
+            feedbackContainer.classList.remove('hidden');
+            document.getElementById('check-answer-btn').classList.add('hidden');
+            document.getElementById('next-question-btn').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizData.length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('quiz-main-screen').classList.add('hidden');
+            document.getElementById('quiz-results-screen').classList.remove('hidden');
+            document.getElementById('final-correct').textContent = score;
+            document.getElementById('final-incorrect').textContent = incorrectAnswers.length;
+            
+            const reviewContainer = document.getElementById('review-button-container');
+            if (incorrectAnswers.length > 0) {
+                reviewContainer.innerHTML = `<button onclick="reviewErrors()" class="bg-amber-500 text-white font-bold py-3 px-8 rounded-lg hover:bg-amber-600 transition-colors">Repasar Errores</button>`;
+            } else {
+                reviewContainer.innerHTML = `<p class="text-lg text-teal-800 font-semibold">¡Felicidades, no has tenido ningún error!</p>`;
+            }
+        }
+
+        function reviewErrors() {
+            document.getElementById('quiz-results-screen').classList.add('hidden');
+            document.getElementById('quiz-review-screen').classList.remove('hidden');
+            const reviewContent = document.getElementById('review-content');
+            reviewContent.innerHTML = '';
+
+            incorrectAnswers.forEach(q => {
+                const div = document.createElement('div');
+                div.className = 'p-4 border border-slate-200 rounded-lg bg-white';
+                div.innerHTML = `
+                    <p class="font-semibold text-slate-800 mb-2">${q.question}</p>
+                    <p class="text-green-700 font-medium"><strong>Respuesta correcta:</strong> ${q.options[q.answer]}</p>
+                    <p class="text-sm text-slate-600 mt-2">${q.explanation}</p>
+                `;
+                reviewContent.appendChild(div);
+            });
+        }
+        
+        function renderChart() {
+             const ctx = document.getElementById('pedagogyChart').getContext('2d');
+             chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Conductismo', 'Cognitivismo', 'Constructivismo', 'Conectivismo'],
+                    datasets: [{
+                        label: 'Foco Principal del Aprendizaje',
+                        data: [70, 85, 95, 90],
+                        backgroundColor: [
+                            'rgba(20, 184, 166, 0.6)',
+                            'rgba(14, 165, 233, 0.6)',
+                            'rgba(52, 211, 153, 0.6)',
+                            'rgba(71, 85, 105, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(20, 184, 166, 1)',
+                            'rgba(14, 165, 233, 1)',
+                            'rgba(52, 211, 153, 1)',
+                            'rgba(71, 85, 105, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(15, 118, 110, 0.1)'
+                            },
+                             ticks: {
+                                display: false
+                            }
+                        },
+                        y: {
+                             grid: {
+                                display: false
+                            },
+                            ticks: {
+                                font: {
+                                    size: 14,
+                                    weight: '500'
+                                },
+                                color: '#334155'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: 'Comparativa de Corrientes Pedagógicas',
+                            font: {
+                                size: 18,
+                                weight: '600'
+                            },
+                            color: '#134e4a',
+                            padding: {
+                                bottom: 20
+                            }
+                        },
+                         tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.dataset.label || '';
+                                    let description = '';
+                                    switch (context.label) {
+                                        case 'Conductismo':
+                                            description = 'Se enfoca en la conducta observable.';
+                                            break;
+                                        case 'Cognitivismo':
+                                            description = 'Se enfoca en los procesos mentales internos.';
+                                            break;
+                                        case 'Constructivismo':
+                                            description = 'Se enfoca en la construcción activa del conocimiento.';
+                                            break;
+                                        case 'Conectivismo':
+                                            description = 'Se enfoca en las redes y conexiones.';
+                                            break;
+                                    }
+                                    return description;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function populateDevelopmentQuestions() {
+            const container = document.getElementById('development-questions-container');
+            container.innerHTML = '';
+            developmentQuestions.forEach(q => {
+                const card = document.createElement('div');
+                card.className = 'card bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden cursor-pointer';
+                card.onclick = () => toggleCard(card);
+                card.innerHTML = `
+                    <div class="p-6 flex justify-between items-center">
+                        <h3 class="text-lg font-semibold text-teal-800">${q.question}</h3>
+                        <span class="chevron text-teal-800 text-2xl font-light">&#9660;</span>
+                    </div>
+                    <div class="card-content">
+                        <p class="text-slate-700">${q.answer}</p>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+             if (contentSections[2].classList.contains('active')) {
+                renderChart();
+            }
+            populateDevelopmentQuestions();
+        });
+    </script>
+
+</body>
+</html>
+
