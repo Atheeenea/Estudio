@@ -6,11 +6,11 @@
     <title>Guía de Estudio Interactiva: Aprendizaje y Enseñanza del Dibujo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chosen Palette: Foco Calmado (Teal & Slate) -->
-    <!-- Application Structure Plan: La aplicación se ha reestructurado en cuatro secciones principales para mayor claridad: "Resumen" (dashboard con conceptos clave desarrollados), "Conceptos" (agrupando el resto del temario relevante no duplicado), "Desarrollo" (práctica específica) y "Test" (evaluación interactiva). Esta estructura simplificada centraliza la información y mejora el flujo de estudio. -->
+    <!-- Application Structure Plan: La aplicación se ha reestructurado en cuatro secciones principales para mayor claridad: "Resumen" (dashboard con conceptos clave desarrollados), "Conceptos" (agrupando el resto del temario relevante no duplicado), "Desarrollo" (práctica específica) y "Test" (evaluación interactiva). Se añade funcionalidad de filtrado en las secciones de preguntas para aislar el contenido nuevo. -->
     <!-- Visualization & Content Choices: 
-    - Contenido Teórico y Preguntas de Desarrollo: Report Info -> Conceptos clave del temario y sus subtemas. Goal -> Organizar/Informar/Sintetizar. Viz/Method -> Tarjetas interactivas con contenido expandido y elementos visuales (diagramas, tablas). Interaction -> Clic para expandir. Justification -> Presentación ordenada, visual y sin sobrecarga de información.
+    - Contenido Teórico y Preguntas de Desarrollo: Report Info -> Conceptos clave del temario y sus subtemas. Goal -> Organizar/Informar/Sintetizar. Viz/Method -> Tarjetas interactivas con contenido expandido y elementos visuales (diagramas, tablas). Interaction -> Clic para expandir, Filtrado de contenido. Justification -> Presentación ordenada y personalizable.
     - Comparativas: Report Info -> Comparación de metodologías/modelos. Goal -> Comparar. Viz/Method -> Tablas (HTML). Interaction -> Estática. Justification -> Síntesis visual clara y directa.
-    - Autoevaluación (Test): Report Info -> Temario completo. Goal -> Evaluar/Reforzar. Viz/Method -> Quiz interactivo (HTML/JS). Interaction -> Selección, feedback, revisión. Justification -> Fomenta el aprendizaje activo. -->
+    - Autoevaluación (Test): Report Info -> Temario completo. Goal -> Evaluar/Reforzar. Viz/Method -> Quiz interactivo (HTML/JS). Interaction -> Selección, feedback, revisión, Filtrado de preguntas. Justification -> Fomenta el aprendizaje activo y dirigido. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
@@ -38,7 +38,7 @@
             padding: 0 1rem;
         }
         .card.open .card-content {
-            max-height: 1500px;
+            max-height: 1500px; /* Aumentado para más contenido */
             padding: 1rem 1rem;
         }
         .card.open .chevron {
@@ -69,6 +69,19 @@
             font-family: monospace;
             white-space: pre-wrap;
             font-size: 0.875rem;
+        }
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            border: 1px solid #cbd5e1;
+            color: #475569;
+            background-color: #f1f5f9;
+            transition: all 0.2s;
+        }
+        .filter-btn.active-filter {
+            background-color: #14b8a6;
+            color: white;
+            border-color: #0d9488;
         }
     </style>
 </head>
@@ -242,13 +255,37 @@
                            </div>
                        </div>
                     </div>
+                     <div class="md:col-span-2">
+                        <div class="card bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden cursor-pointer" onclick="toggleCard(this)">
+                           <div class="p-4 md:p-6 flex justify-between items-center">
+                               <h3 class="text-xl font-semibold text-teal-800">Herramientas y Futuro Digital en la Docencia</h3>
+                               <span class="chevron text-teal-800">&#9660;</span>
+                           </div>
+                           <div class="card-content">
+                               <div class="space-y-4 text-slate-700">
+                                   <div>
+                                       <h4 class="font-semibold text-teal-900 mb-2">Web 2.0</h4>
+                                       <p>Se caracteriza por ser social e interactiva, permitiendo a los usuarios crear y compartir contenido fácilmente. En educación, fomenta el aprendizaje colaborativo, rompe las barreras del aula y da protagonismo al alumno, con el profesor como facilitador.</p>
+                                   </div>
+                                    <div>
+                                       <h4 class="font-semibold text-teal-900 mb-2">Portafolio</h4>
+                                       <p>Es una colección de trabajos del alumno que demuestra su progreso y aprendizaje a lo largo del tiempo. Permite una evaluación continua y reflexiva, desarrolla la autoevaluación y acerca al estudiante a una herramienta de uso profesional.</p>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                    </div>
                 </div>
             </section>
             
             <!-- Preguntas de Desarrollo -->
             <section class="content-section">
                 <div class="bg-amber-50 p-4 md:p-6 rounded-2xl mb-8 border border-amber-200">
-                    <p class="text-amber-900 text-center">Esta sección contiene 20 posibles preguntas de desarrollo para el examen, formuladas para practicar tu capacidad de síntesis y argumentación. Haz clic en cada una para desplegar la respuesta.</p>
+                     <div class="flex justify-center gap-4 mb-6">
+                        <button id="filter-dev-all" class="filter-btn active-filter" onclick="filterDevQuestions('all', this)">Todas</button>
+                        <button id="filter-dev-daypo" class="filter-btn" onclick="filterDevQuestions('daypo', this)">Nuevas (D)</button>
+                    </div>
+                    <p class="text-amber-900 text-center">Esta sección contiene preguntas de desarrollo para el examen. Usa los filtros para ver todas las preguntas o solo las añadidas del test de Daypo.</p>
                 </div>
                 <div id="development-questions-container" class="space-y-4">
                     <!-- Las preguntas de desarrollo se insertarán aquí dinámicamente -->
@@ -261,7 +298,11 @@
                     <div id="quiz-start-screen">
                          <div class="bg-teal-100/60 p-4 md:p-6 rounded-2xl mb-8 border border-teal-200">
                             <h2 class="text-2xl font-bold text-teal-900 text-center mb-4">Test</h2>
-                            <p class="text-teal-900 text-center">Pon a prueba tus conocimientos con este test de 80 preguntas. Recibirás una explicación con cada respuesta. ¡Mucha suerte!</p>
+                            <p id="quiz-intro-text" class="text-teal-900 text-center">Pon a prueba tus conocimientos con este test. Recibirás una explicación con cada respuesta. ¡Mucha suerte!</p>
+                             <div class="flex justify-center gap-4 my-6">
+                                <button id="filter-quiz-all" class="filter-btn active-filter" onclick="setQuizFilter('all', this)">Todas (97)</button>
+                                <button id="filter-quiz-daypo" class="filter-btn" onclick="setQuizFilter('daypo', this)">Nuevas (D) (17)</button>
+                            </div>
                         </div>
                         <div class="text-center">
                              <button onclick="startQuiz()" class="bg-teal-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-teal-700 transition-colors">Comenzar Test</button>
@@ -394,7 +435,24 @@
             { question: "¿Cuál de estas tecnologías NO es mencionada como clave para el futuro de la educación artística en el temario?", options: ["Realidad Aumentada", "Impresoras 3D", "Programas CAD", "Máquinas de escribir"], answer: 3, explanation: "El temario se enfoca en tecnologías digitales avanzadas como CAD, impresión 3D, RV y RA como herramientas que están transformando la enseñanza del diseño y el arte." },
             { question: "La crítica al paradigma centrado en la Historia del Arte es que...", options: ["Es demasiado práctico", "Suele dejar fuera el arte contemporáneo", "No tiene en cuenta a los grandes maestros", "Es demasiado fácil de evaluar"], answer: 1, explanation: "Una de las limitaciones de este enfoque es que, al seguir un orden cronológico, a menudo no llega a cubrir el arte contemporáneo, lo que puede hacer que el alumno perciba el arte como algo lejano y ajeno a su realidad." },
             { question: "¿En qué corriente pedagógica el profesor es visto como una autoridad que modela la conducta del alumno?", options: ["Constructivismo", "Conectivismo", "Cognitivismo", "Conductismo"], answer: 3, explanation: "En el modelo conductista, el profesor es el centro del proceso, el que dispensa los estímulos y los refuerzos para conseguir la conducta deseada en un alumno que es considerado un receptor pasivo." },
-            { question: "El libro de artista y el portafolio son herramientas que favorecen principalmente...", options: ["La evaluación sumativa", "La competición entre alumnos", "La autoevaluación y la reflexión sobre el proceso", "El aprendizaje memorístico"], answer: 2, explanation: "Ambas herramientas son excelentes para que el alumno recopile su trabajo, reflexione sobre su propio proceso de aprendizaje, identifique sus avances y desarrolle la autocrítica." }
+            { question: "El libro de artista y el portafolio son herramientas que favorecen principalmente...", options: ["La evaluación sumativa", "La competición entre alumnos", "La autoevaluación y la reflexión sobre el proceso", "El aprendizaje memorístico"], answer: 2, explanation: "Ambas herramientas son excelentes para que el alumno recopile su trabajo, reflexione sobre su propio proceso de aprendizaje, identifique sus avances y desarrolle la autocrítica." },
+            { question: "¿A qué nos referimos cuando decimos que la materia resulta útil y atrayente por el significativo hecho de que el alumno encuentre por él mismo, o con ayuda del docente, ejemplos cotidianos que guarden relación con el dibujo? (D)", options: ["Estrategia del pensamiento visual", "Estrategia metafórica", "Estrategia de experiencia", "Estrategia multisensorial"], answer: 2, explanation: "La estrategia de experiencia busca conectar lo que se aprende en el aula con el mundo real, mostrando su utilidad y aplicaciones prácticas o profesionales para aumentar la motivación.", source: "daypo" },
+            { question: "En la estrategia del pensamiento visual, ¿cuáles son los 4 procesos implicados en el desarrollo cognitivo del estudiante? (D)", options: ["Analítico, Analógico, Dinámico y Metafórico", "Creativo, Constructivo, Evaluativo y Social", "Visual, Auditivo, Kinestésico y Lingüístico", "Memorístico, Repetitivo, Lógico y Abstracto"], answer: 0, explanation: "Los cuatro procesos son: Analítico (observar partes), Analógico (establecer relaciones), Dinámico (entender giros y rotaciones) y Metafórico (comprender transformaciones).", source: "daypo" },
+            { question: "¿Cuál de estas afirmaciones sobre los elementos transversales es incorrecta? (D)", options: ["No hacen referencia a ningún área en concreto, las impregnan todas.", "Los centros educativos se abren al mundo y a la realidad del alumnado.", "No deben entrar a formar parte de las actividades planteadas dentro de todas las áreas.", "Se deben trabajar los valores con carácter interdisciplinar."], answer: 2, explanation: "Los elementos transversales, por definición, deben trabajarse e integrarse en las actividades de todas las áreas del currículo.", source: "daypo" },
+            { question: "¿Qué característica referida al portafolio es incorrecta? (D)", options: ["Supone una mejora profunda en la evaluación.", "Permite reflexionar sobre el proceso de aprendizaje mismo.", "Ayuda a adquirir cierto grado de madurez y desarrolla la responsabilidad.", "Es una herramienta exclusivamente para la evaluación final y sumativa."], answer: 3, explanation: "El portafolio es una herramienta ideal para el seguimiento y la evaluación continua y formativa, no solo para la evaluación final.", source: "daypo" },
+            { question: "Cuando decimos que las imágenes pueden informar por sí mismas de aquello que está pasando o hacer reflexionar, ¿a qué función de la imagen nos referimos? (D)", options: ["Función emotiva", "Función conativa", "Función fática", "Función referencial"], answer: 3, explanation: "La función referencial o informativa es la que tiene como objetivo principal informar sobre un hecho o apoyar visualmente un texto de manera objetiva.", source: "daypo" },
+            { question: "¿Qué corriente educativa tiene como propósito generar un currículo integrado de base común para todos los estudiantes, incluyendo 4 disciplinas principales: producción artística, historia del arte y la cultura, crítica y estética? (D)", options: ["Educación artística como desarrollo de la creatividad", "Educación artística como disciplina (DBAE)", "Educación artística vinculada al sistema productivo", "Educación artística para la comprensión de la cultura visual"], answer: 1, explanation: "La Educación Artística como Disciplina (DBAE - Discipline-Based Art Education) es la que propone este enfoque integrador de cuatro pilares.", source: "daypo" },
+            { question: "¿A qué metodología de aprendizaje circular nos referimos cuando trabajamos sobre preguntas que, al ser respondidas, generan nuevas cuestiones? (D)", options: ["Gamificación", "Aula Invertida", "Aprendizaje Basado en Problemas (PBL)", "Lección Magistral"], answer: 2, explanation: "El Aprendizaje Basado en Problemas (PBL) tiene un carácter circular e iterativo, donde la investigación para resolver un problema inicial suele destapar nuevas preguntas y líneas de investigación.", source: "daypo" },
+            { question: "Señala cuál de los siguientes principios comunes para el uso de la web 2.0 es incorrecto. (D)", options: ["El profesor desempeña un rol como preparador y facilitador de entornos.", "Se abandona el liderazgo como fuente de conocimiento.", "El profesor no comparte su rol de informador con otras fuentes.", "El aprendizaje tiene un enfoque social."], answer: 2, explanation: "En el entorno de la Web 2.0, el profesor comparte su rol de informador con múltiples fuentes de la red, actuando más como un curador de contenidos y guía.", source: "daypo" },
+            { question: "¿Qué suponen los museos en la sociedad del conocimiento del siglo XXI? (D)", options: ["Mausoleos para la contemplación pasiva.", "Centros del conocimiento y aulas de aprendizaje alternativas.", "Espacios exclusivos para la alta cultura.", "Lugares sin ninguna función educativa."], answer: 1, explanation: "En la actualidad, los museos se conciben como espacios dinámicos de aprendizaje, recursos valiosos y complementarios a la educación formal.", source: "daypo" },
+            { question: "En cuanto al desarrollo de la visita al museo, ¿cuál de las siguientes sugerencias para los educadores es incorrecta? (D)", options: ["Participar en la visita abiertamente como un estudiante más.", "Estar abiertos a rupturas inesperadas del formato.", "Centrar la visita exclusivamente en la información escrita de las cartelas.", "Favorecer el diálogo."], answer: 2, explanation: "Una visita significativa debe centrarse en la observación directa de los objetos y obras, utilizando las cartelas como apoyo pero no como el foco principal, para fomentar el diálogo y la interpretación personal.", source: "daypo" },
+            { question: "¿Cuál es el orden correcto de la pirámide de la taxonomía de Bloom (de la base a la cúspide)? (D)", options: ["Recordar, Comprender, Aplicar, Analizar, Evaluar, Crear", "Crear, Evaluar, Analizar, Aplicar, Comprender, Recordar", "Aplicar, Analizar, Recordar, Comprender, Crear, Evaluar", "Comprender, Recordar, Aplicar, Evaluar, Analizar, Crear"], answer: 0, explanation: "La taxonomía de Bloom organiza los procesos cognitivos en niveles de complejidad ascendente, comenzando por el más básico (Recordar) y culminando en el de orden superior (Crear).", source: "daypo" },
+            { question: "¿De qué metodología hablamos cuando se enfrenta a los estudiantes a una situación relevante y ficticia para la cual no se requiere necesariamente una solución real? (D)", options: ["Aprendizaje Basado en Proyectos (ABP)", "Aprendizaje Basado en Problemas (PBL)", "Gamificación", "Aula Invertida"], answer: 1, explanation: "El Aprendizaje Basado en Problemas (PBL) a menudo utiliza problemas hipotéticos o ficticios para centrar al alumno en el proceso de investigación y aprendizaje, sin la necesidad de producir un producto final concreto como en el ABP.", source: "daypo" },
+            { question: "¿Qué son las adaptaciones curriculares significativas? (D)", options: ["Cambios leves en la metodología de enseñanza.", "Modificaciones de los elementos prescriptivos del currículo como objetivos y contenidos.", "Actividades de refuerzo para toda la clase.", "La elección de asignaturas optativas."], answer: 1, explanation: "Las adaptaciones curriculares significativas son medidas extraordinarias que implican modificar los elementos nucleares del currículo para un alumno con necesidades específicas, requiriendo una evaluación psicopedagógica.", source: "daypo" },
+            { question: "En la estrategia del pensamiento visual, uno de los procesos es el 'Analógico'. ¿En qué consiste? (D)", options: ["En fraccionar un todo en distintas partes.", "En entender las relaciones, asociaciones y comparaciones.", "En comprender giros, rotaciones y simetrías.", "En comprender transformaciones como ampliaciones o distorsiones."], answer: 1, explanation: "El proceso analógico consiste en entender las analogías entre elementos y estructuras espaciales, aprendiendo a relacionar, a asociar y a comparar.", source: "daypo" },
+            { question: "La doble función de los textos de la cultura de masas es: contribuir al conocimiento compartido y... (D)", options: ["Fomentar el pensamiento crítico.", "Tener una naturaleza ideológica al servicio del consumo.", "Promover la diversidad cultural.", "Apoyar la educación formal."], answer: 1, explanation: "Además de construir un imaginario común, la cultura de masas tiene una función ideológica, promoviendo estilos de vida, valores e ideologías vinculadas a las sociedades de consumo.", source: "daypo" },
+            { question: "El punto de vista del 'descodificador' en la alfabetización visual de Tyner se refiere a: (D)", options: ["Seleccionar mensajes de los medios de forma consciente.", "Desarrollar la capacidad crítica para evitar manipulación.", "Usar los medios como herramientas para aprender.", "Participar en la elaboración de mensajes."], answer: 1, explanation: "El rol del 'descodificador' implica desarrollar un pensamiento crítico que permita analizar los mensajes de los medios, identificar sus intenciones y evitar sesgos o manipulaciones.", source: "daypo" },
+            { question: "La inclusión del alumnado de origen extranjero en las clases de dibujo se ve favorecida porque... (D)", options: ["El arte es un lenguaje universal que puede superar la barrera idiomática.", "Las clases de dibujo no requieren comunicación.", "No existen diferencias culturales en la expresión artística.", "El dibujo técnico es igual en todos los países."], answer: 0, explanation: "El arte funciona como una forma de comunicación no verbal, permitiendo a los alumnos expresarse y conectar con otros incluso cuando aún no dominan el idioma, facilitando así su integración.", source: "daypo" }
         ];
 
         const developmentQuestions = [
@@ -416,191 +474,22 @@
             { question: "Define 'aprendizaje significativo' según Ausubel.", answer: "El aprendizaje significativo se produce cuando un nuevo conocimiento se relaciona de manera sustancial y no arbitraria con la estructura cognitiva previa del estudiante. A diferencia del aprendizaje memorístico (mecánico), el significativo se integra, se comprende y se retiene a largo plazo porque conecta con lo que el alumno ya sabe." },
             { question: "Describe el paradigma de la educación artística basado en la alfabetización visual.", answer: "Este paradigma concibe el arte como un lenguaje visual con su propia gramática (punto, línea, color) y sintaxis (composición, equilibrio). El objetivo de la enseñanza es 'alfabetizar' al alumno en este lenguaje para que pueda decodificar y comprender las imágenes de manera formal y estructural, facilitando así un método de enseñanza y evaluación más objetivo y sistemático." },
             { question: "Compara la Realidad Virtual (RV) con la Realidad Aumentada (RA).", answer: "La Realidad Virtual (RV) sumerge al usuario en un entorno completamente digital y simulado, aislándolo del mundo real. La Realidad Aumentada (RA), en cambio, superpone información digital (imágenes, datos, objetos 3D) sobre el entorno real, enriqueciéndolo pero sin sustituirlo. La RV crea un mundo nuevo; la RA añade capas al nuestro." },
-            { question: "Define qué es el 'Art Brut' y quién acuñó el término.", answer: "El Art Brut, o 'arte marginal', es un término acuñado por Jean Dubuffet para describir el arte creado por personas ajenas a la cultura artística oficial y sin formación académica (como niños, autodidactas o personas en centros psiquiátricos). Se valora por su pureza, espontaneidad y por ser una expresión creativa libre de las normas y convenciones del arte tradicional." },
-            { question: "Explica brevemente las cinco estrategias de enseñanza del dibujo.", answer: "Las cinco estrategias son: la del <strong>pensamiento visual</strong> (aprender a observar y analizar), la <strong>metafórica</strong> (usar analogías para comprender conceptos), la de la <strong>fantasía</strong> (fomentar la imaginación y la creatividad), la <strong>multisensorial</strong> (aprender 'haciendo' y 'tocando') y la de <strong>experiencia</strong> (conectar el aprendizaje con la vida real y profesional para motivar)." }
-        ];
-
-        const conceptosClave = [
-            {
-                title: "Cultura visual",
-                content: `
-                    <h4 class="font-semibold text-teal-900 mb-2">Definición</h4>
-                    <p class="text-slate-700 mb-3">Es el estudio de cómo la sociedad contemporánea construye y comunica significados a través de la enorme cantidad de imágenes que nos rodean (arte, publicidad, cine, internet, etc.). No se centra solo en el arte, sino en todo el universo visual como un texto cultural que puede ser leído e interpretado.</p>
-                    <h4 class="font-semibold text-teal-900 mb-2">Objetivo en Educación</h4>
-                    <p class="text-slate-700">El objetivo principal de integrar la cultura visual en la educación es desarrollar la 'alfabetización visual' en el alumnado. Esto implica enseñarles a analizar críticamente las imágenes, comprender sus mensajes explícitos e implícitos, identificar sus intenciones y reconocer cómo influyen en nuestra percepción del mundo, nuestras identidades y nuestros valores.</p>
-                    <h4 class="font-semibold text-teal-900 mb-2">Rol del Alumno</h4>
-                    <p class="text-slate-700">El enfoque de la cultura visual transforma al alumno de un mero consumidor pasivo de imágenes a un lector crítico y productor consciente. Se le dota de herramientas para cuestionar lo que ve, entender el contexto de las imágenes y ser capaz de crear sus propios mensajes visuales de manera reflexiva y fundamentada.</p>
-                `
-            },
-            {
-                title: "Funciones de la imagen",
-                content: `
-                    <div class="bg-gray-100 p-4 rounded-lg mb-4">
-                        <p class="text-center font-semibold text-teal-800">VISUALIZACIÓN RÁPIDA DE FUNCIONES:</p>
-                        <p class="text-center text-slate-600">🗣️ <strong>Conativa/Apelativa:</strong> Persuadir (Publicidad)</p>
-                        <p class="text-center text-slate-600">✨ <strong>Fática:</strong> Llamar la atención (Señales)</p>
-                        <p class="text-center text-slate-600">😊 <strong>Emotiva/Expresiva:</strong> Transmitir sentimientos (Arte, fotos)</p>
-                        <p class="text-center text-slate-600">ℹ️ <strong>Referencial/Informativa:</strong> Informar, ilustrar (Mapas)</p>
-                        <p class="text-center text-slate-600">🎨 <strong>Poética/Estética:</strong> Crear belleza (Obras de arte)</p>
-                    </div>
-                    <h4 class="font-semibold text-teal-900 mb-2">Función Conativa o Apelativa</h4>
-                    <p class="text-slate-700 mb-3">Busca influir o persuadir al espectador para que actúe de una determinada manera. Es la función principal de la publicidad, que intenta convencer al público para que compre un producto o adopte una idea.</p>
-                    <h4 class="font-semibold text-teal-900 mb-2">Función Fática</h4>
-                    <p class="text-slate-700 mb-3">Su objetivo principal es llamar la atención del espectador y establecer o mantener el contacto visual. Se basa en el uso de contrastes, colores llamativos o elementos sorprendentes para que la mirada se dirija hacia un punto concreto.</p>
-                    <h4 class="font-semibold text-teal-900 mb-2">Función Emotiva o Expresiva</h4>
-                    <p class="text-slate-700 mb-3">Pretende transmitir emociones, sentimientos o sensaciones. Apela a la subjetividad del espectador, evocando recuerdos o provocando una respuesta afectiva. Es muy común en el arte y la fotografía personal.</p>
-                    <h4 class="font-semibold text-teal-900 mb-2">Función Referencial o Informativa</h4>
-                    <p class="text-slate-700 mb-3">Tiene como finalidad principal informar, ilustrar o apoyar un texto de manera objetiva. Su propósito es representar la realidad o un concepto de la forma más clara posible, como en los gráficos de noticias o las ilustraciones de un manual.</p>
-                    <h4 class="font-semibold text-teal-900 mb-2">Función Poética o Estética</h4>
-                    <p class="text-slate-700">Es la función propia del arte, donde la imagen tiene valor por sí misma y busca crear belleza, impacto o una reflexión a través de su propia composición y forma. El mensaje estético es el fin principal.</p>
-                `
-            },
-            {
-                title: "Escenarios enseñanza-aprendizaje",
-                content: `
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-center">
-                        <div class="bg-teal-50 p-4 rounded-lg border border-teal-200">
-                            <h5 class="font-bold text-teal-900 mb-1">FORMAL</h5>
-                            <p class="text-sm text-teal-800">(Reglado, con Título)</p>
-                            <p class="text-xs text-slate-500 mt-2">Colegios, Universidades</p>
-                        </div>
-                        <div class="bg-teal-50 p-4 rounded-lg border border-teal-200">
-                            <h5 class="font-bold text-teal-900 mb-1">NO FORMAL</h5>
-                            <p class="text-sm text-teal-800">(Intencional, sin Título)</p>
-                            <p class="text-xs text-slate-500 mt-2">Museos, Talleres</p>
-                        </div>
-                        <div class="bg-teal-50 p-4 rounded-lg border border-teal-200">
-                            <h5 class="font-bold text-teal-900 mb-1">INFORMAL</h5>
-                            <p class="text-sm text-teal-800">(Espontáneo, Experiencial)</p>
-                             <p class="text-xs text-slate-500 mt-2">Vida cotidiana, Amigos</p>
-                        </div>
-                    </div>
-                    <h4 class="font-semibold text-teal-900 mb-2">Educación Formal</h4>
-                    <p class="text-slate-700 mb-3">Es el aprendizaje que ocurre en un sistema educativo estructurado, reglado y jerarquizado, como colegios, institutos y universidades. Es intencional, planificado y conduce a la obtención de una certificación o título oficial reconocido.</p>
-                    <h4 class="font-semibold text-teal-900 mb-2">Educación No Formal</h4>
-                    <p class="text-slate-700 mb-3">Se refiere al aprendizaje que es intencionado y organizado, pero que tiene lugar fuera del sistema educativo formal. No suele conducir a una titulación oficial. Ejemplos claros son los talleres en museos, las academias de idiomas o los cursos de formación en centros culturales.</p>
-                    <h4 class="font-semibold text-teal-900 mb-2">Educación Informal</h4>
-                    <p class="text-slate-700">Es el aprendizaje que se produce de manera no intencionada y espontánea a lo largo de la vida cotidiana. Se adquiere a través de las experiencias diarias, la interacción con la familia y amigos, el consumo de medios de comunicación o la participación en actividades de ocio. No está estructurado ni planificado.</p>
-                `
-            },
-            {
-                title: "Concepto de PLE",
-                content: `
-                    <h4 class="font-semibold text-teal-900 mb-2">Definición</h4>
-                    <p class="text-slate-700 mb-3">El PLE (Personal Learning Environment o Entorno Personal de Aprendizaje) no es una aplicación o plataforma, sino un enfoque pedagógico. Se refiere al conjunto de herramientas, fuentes de información, conexiones con otras personas y actividades que cada individuo utiliza de forma asidua y personal para aprender.</p>
-                    <h4 class="font-semibold text-teal-900 mb-2">Componentes</h4>
-                    <p class="text-slate-700 mb-3">Un PLE se compone de tres partes principales: las herramientas que usamos para acceder y gestionar la información (blogs, redes sociales, buscadores), los recursos o fuentes de las que aprendemos (artículos, vídeos, podcasts) y la red personal de aprendizaje o PLN (Personal Learning Network), que son las personas con las que interactuamos para aprender.</p>
-                    <h4 class="font-semibold text-teal-900 mb-2">Características</h4>
-                    <p class="text-slate-700">Es un entorno centrado en el alumno, que tiene el control sobre su propio proceso de aprendizaje. Integra los tres escenarios (formal, no formal e informal) y reconoce que el aprendizaje es un proceso continuo, social y conectado, especialmente en la era digital.</p>
-                `
-            },
-            {
-                title: "Medidas de atención ordinarias y extraordinarias",
-                content: `
-                    <div class="overflow-x-auto mb-4">
-                        <table class="w-full text-left border-collapse">
-                            <thead>
-                                <tr class="bg-teal-100">
-                                    <th class="p-3 border border-teal-200 font-semibold text-teal-900">Medidas Ordinarias</th>
-                                    <th class="p-3 border border-teal-200 font-semibold text-teal-900">Medidas Extraordinarias</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="bg-white">
-                                    <td class="p-3 border border-teal-200"><strong>NO</strong> modifican elementos prescriptivos del currículo.</td>
-                                    <td class="p-3 border border-teal-200"><strong>SÍ</strong> pueden modificar elementos prescriptivos del currículo.</td>
-                                </tr>
-                                <tr class="bg-teal-50">
-                                    <td class="p-3 border border-teal-200">Se aplican de forma general y flexible.</td>
-                                    <td class="p-3 border border-teal-200">Requieren una <strong>evaluación psicopedagógica</strong> previa.</td>
-                                </tr>
-                                <tr class="bg-white">
-                                    <td class="p-3 border border-teal-200">Ej: Adaptaciones no significativas, refuerzos (PTI).</td>
-                                    <td class="p-3 border border-teal-200">Ej: Adaptaciones curriculares significativas (ACS).</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <h4 class="font-semibold text-teal-900 mb-2">Medidas Ordinarias</h4>
-                    <p class="text-slate-700 mb-3">Son estrategias y acciones educativas que se aplican de forma general para atender a la diversidad del aula sin modificar los elementos prescriptivos del currículo (objetivos, contenidos y criterios de evaluación). Incluyen metodologías flexibles, distintas formas de agrupamiento, programas de refuerzo (PTI) o adaptaciones curriculares no significativas, que afectan a elementos como los tiempos, las actividades o la forma de presentar la información.</p>
-                    <h4 class="font-semibold text-teal-900 mb-2">Medidas Extraordinarias</h4>
-                    <p class="text-slate-700">Se adoptan cuando las medidas ordinarias son insuficientes para responder a las necesidades educativas específicas de un alumno. A diferencia de las anteriores, sí pueden modificar elementos prescriptivos del currículo. Requieren obligatoriamente una evaluación psicopedagógica previa y un dictamen de escolarización. El ejemplo más claro es la adaptación curricular significativa (ACS), donde se modifican objetivos y contenidos para adaptarlos a las capacidades del estudiante.</p>
-                `
-            },
-            {
-                title: "Metodologías contemporáneas",
-                content: `
-                    <div class="bg-gray-100 p-4 rounded-lg mb-4 text-center">
-                        <p class="font-semibold text-teal-800">VISUALIZACIÓN RÁPIDA DE METODOLOGÍAS:</p>
-                        <p class="text-slate-600">🔄 <strong>Aula Invertida:</strong> Teoría en casa ➔ Práctica en clase.</p>
-                        <p class="text-slate-600">🎮 <strong>Gamificación:</strong> Usar mecánicas de juego para motivar.</p>
-                        <p class="text-slate-600">🏗️ <strong>ABP (Proyectos):</strong> Foco en el <strong>producto final</strong> para resolver un problema.</p>
-                        <p class="text-slate-600">❓ <strong>PBL (Problemas):</strong> Foco en el <strong>proceso de investigación</strong> para resolver un problema.</p>
-                    </div>
-                    <h4 class="font-semibold text-teal-900 mb-2">Aula Invertida (Flipped Classroom)</h4>
-                    <p class="text-slate-700 mb-3">Invierte el modelo tradicional: la instrucción directa (lección teórica) se traslada fuera del aula, a través de vídeos o lecturas, y el tiempo presencial se aprovecha para realizar actividades prácticas, resolver dudas y fomentar el aprendizaje colaborativo, con el docente como guía.</p>
-                    <h4 class="font-semibold text-teal-900 mb-2">Gamificación</h4>
-                    <p class="text-slate-700 mb-3">Consiste en aplicar elementos y dinámicas propias de los juegos (puntos, niveles, insignias, rankings) en un contexto no lúdico, como el educativo, con el fin de aumentar la motivación, el compromiso y la participación del alumnado en el proceso de aprendizaje.</p>
-                     <h4 class="font-semibold text-teal-900 mb-2">Aprendizaje Basado en Proyectos (ABP)</h4>
-                    <p class="text-slate-700 mb-3">Es una metodología en la que los estudiantes, trabajando de forma colaborativa, investigan y responden a una pregunta o problema complejo a través de la creación de un producto, una presentación o una propuesta final. El foco está en el resultado tangible y en el desarrollo de competencias transversales.</p>
-                     <h4 class="font-semibold text-teal-900 mb-2">Aprendizaje Basado en Problemas (PBL)</h4>
-                    <p class="text-slate-700">En este caso, el punto de partida es un problema (real o hipotético) que el alumnado debe resolver. A diferencia del ABP, el énfasis no está tanto en el producto final como en el proceso de investigación, análisis y aprendizaje que los estudiantes llevan a cabo para encontrar una o varias soluciones.</p>
-                `
-            },
-            {
-                title: "Ingeniería concurrente vs. secuencial",
-                content: `
-                    <div class="bg-gray-100 p-4 rounded-lg mb-4 text-center">
-                        <p class="font-semibold text-teal-800">DIAGRAMA DE FLUJO:</p>
-                        <p class="text-slate-600 font-mono"><strong>Secuencial:</strong> [Diseño] → [Producción] → [Marketing] (Lineal y Aislado)</p>
-                        <p class="text-slate-600 font-mono mt-2"><strong>Concurrente:</strong> &lt;-- Retroalimentación --&gt;<br>| Diseño | Producción | Marketing | (Colaborativo)</p>
-                    </div>
-                    <h4 class="font-semibold text-teal-900 mb-2">Ingeniería Secuencial</h4>
-                    <p class="text-slate-700 mb-3">Es el modelo de diseño y producción tradicional, también llamado "en cascada". El proceso es lineal y cada departamento (diseño, producción, marketing, etc.) trabaja de forma aislada, pasando el proyecto al siguiente una vez ha finalizado su fase. Es un método rígido donde los errores detectados tardíamente son muy costosos de corregir.</p>
-                    <h4 class="font-semibold text-teal-900 mb-2">Ingeniería Concurrente</h4>
-                    <p class="text-slate-700">Es un modelo de trabajo colaborativo y simultáneo. Todos los departamentos implicados en el ciclo de vida de un producto trabajan juntos desde el principio, compartiendo información y proporcionando retroalimentación constante. Aunque la fase de diseño inicial puede ser más larga, este enfoque previene errores, mejora la calidad del producto final y acorta el tiempo total de lanzamiento al mercado.</p>
-                `
-            },
-            {
-                title: "Corrientes pedagógicas",
-                content: `
-                    <div class="bg-gray-100 p-4 rounded-lg mb-4 text-center">
-                        <p class="font-semibold text-teal-800">EVOLUCIÓN DEL FOCO DE APRENDIZAJE:</p>
-                        <p class="text-slate-600 font-mono">[Conductismo] → [Cognitivismo] → [Constructivismo] → [Conectivismo]</p>
-                        <p class="text-sm text-slate-500">(Conducta externa) → (Procesos mentales) → (Construcción activa) → (Conexiones en red)</p>
-                    </div>
-                    <h4 class="font-semibold text-teal-900 mb-2">Conductismo</h4>
-                    <p class="text-slate-700 mb-3">Enfoque centrado en la conducta observable. Considera el aprendizaje como una asociación entre un estímulo externo y una respuesta, modelada a través de refuerzos (premios o castigos). El alumno es un receptor pasivo y el profesor es la autoridad que transmite el conocimiento.</p>
-                    <h4 class="font-semibold text-teal-900 mb-2">Cognitivismo</h4>
-                    <p class="text-slate-700 mb-3">Reacciona al conductismo poniendo el foco en los procesos mentales internos (memoria, percepción, resolución de problemas). Concibe al alumno como un procesador activo de información. Introduce conceptos clave como el aprendizaje significativo de Ausubel, que se produce cuando la nueva información se conecta con los conocimientos previos.</p>
-                    <h4 class="font-semibold text-teal-900 mb-2">Constructivismo</h4>
-                    <p class="text-slate-700 mb-3">Sostiene que el conocimiento no se recibe pasivamente, sino que es "construido" activamente por el propio alumno a través de la interacción con su entorno. El profesor actúa como un facilitador que guía el proceso de descubrimiento. Sus grandes referentes son Piaget (construcción individual) y Vygotsky (construcción social).</p>
-                    <h4 class="font-semibold text-teal-900 mb-2">Conectivismo</h4>
-                    <p class="text-slate-700">Es la teoría del aprendizaje para la era digital. Postula que el conocimiento reside en la diversidad de opiniones y en las redes de conexión, no solo en el individuo. La capacidad de establecer conexiones, encontrar y filtrar información relevante se convierte en una habilidad de aprendizaje fundamental. El aprendizaje puede residir en dispositivos no humanos.</p>
-                `
-            },
-            {
-                title: "Nuevos estilos docentes",
-                content: `
-                    <h4 class="font-semibold text-teal-900 mb-2">Profesor como Hacker</h4>
-                    <p class="text-slate-700 mb-3">Es un docente innovador, curioso y apasionado que no se conforma con el sistema establecido. Investiga, experimenta y desafía las normas con el objetivo de encontrar mejores maneras de enseñar y de que el sistema educativo funcione mejor.</p>
-                    <h4 class="font-semibold text-teal-900 mb-2">Profesor como DJ</h4>
-                    <p class="text-slate-700 mb-3">Frente al "profesor karaoke" que se limita a reproducir el contenido de otros (ej. libro de texto), el profesor DJ explora una gran diversidad de fuentes, las selecciona, las mezcla y crea una experiencia de aprendizaje nueva, personal y única para su alumnado.</p>
-                    <h4 class="font-semibold text-teal-900 mb-2">Profesor como Coach</h4>
-                    <p class="text-slate-700 mb-3">Actúa como un entrenador que, en lugar de transmitir conocimientos, se centra en desarrollar las habilidades y actitudes de sus alumnos. Su función es motivar, guiar y empoderar al alumnado para que sean los protagonistas y responsables de su propio proceso de aprendizaje.</p>
-                    <h4 class="font-semibold text-teal-900 mb-2">Profesor como Community Manager</h4>
-                    <p class="text-slate-700">Aplica las estrategias de un gestor de comunidades al ámbito educativo. Su labor es crear, dinamizar y gestionar una comunidad de aprendizaje (presencial o virtual), curando contenidos relevantes, fomentando la conversación y utilizando herramientas digitales para la colaboración.</p>
-                `
-            },
-            {
-                title: "Transversalidad y elementos transversales",
-                content: `
-                    <h4 class="font-semibold text-teal-900 mb-2">Transversalidad</h4>
-                    <p class="text-slate-700 mb-3">Es un enfoque pedagógico que busca integrar determinados contenidos educativos, principalmente actitudinales y en valores (educación para la paz, igualdad de género, sostenibilidad, etc.), en todas las áreas y materias del currículo. Estos temas "atraviesan" las asignaturas, evitando que queden relegados a una materia concreta y fomentando una formación más integral.</p>
-                    <h4 class="font-semibold text-teal-900 mb-2">Elementos Transversales (LOMLOE)</h4>
-                    <p class="text-slate-700">La LOMLOE recoge este principio y establece que se debe trabajar en todas las materias, sin excepción, una serie de elementos transversales. Entre ellos destacan la comprensión lectora, la expresión oral y escrita, la competencia digital, el fomento del espíritu crítico y científico, la educación emocional y en valores, y la creatividad, asegurando así su desarrollo a lo largo de toda la etapa educativa.</p>
-                `
-            },
+            { question: "Define qué es el 'Art Brut' y quién acuñó el término. (D)", answer: "El Art Brut, o 'arte marginal', es un término acuñado por Jean Dubuffet para describir el arte creado por personas ajenas a la cultura artística oficial y sin formación académica (como niños, autodidactas o personas en centros psiquiátricos). Se valora por su pureza, espontaneidad y por ser una expresión creativa libre de las normas y convenciones del arte tradicional.", source: "daypo" },
+            { question: "Explica brevemente las cinco estrategias de enseñanza del dibujo. (D)", answer: "Las cinco estrategias son: la del <strong>pensamiento visual</strong> (aprender a observar y analizar), la <strong>metafórica</strong> (usar analogías para comprender conceptos), la de la <strong>fantasía</strong> (fomentar la imaginación y la creatividad), la <strong>multisensorial</strong> (aprender 'haciendo' y 'tocando') y la de <strong>experiencia</strong> (conectar el aprendizaje con la vida real y profesional para motivar).", source: "daypo" },
+            { question: "Describe brevemente los 3 escenarios en los que tiene lugar el proceso de enseñanza-aprendizaje. (D)", answer: "El aprendizaje ocurre en tres escenarios interconectados: el <strong>formal</strong> (reglado y con titulación, como el colegio), el <strong>no formal</strong> (intencionado pero sin titulación oficial, como un taller en un museo) y el <strong>informal</strong> (espontáneo y a través de la experiencia cotidiana).", source: "daypo" },
+            { question: "¿A qué medidas de atención nos referimos cuando introducen modificaciones en el currículo ordinario? (D)", answer: "Nos referimos a las <strong>medidas de carácter extraordinario</strong>. Estas se aplican cuando las ordinarias son insuficientes, exigen una evaluación psicopedagógica y permiten modificar elementos prescriptivos del currículo como objetivos y contenidos, a través de adaptaciones curriculares significativas.", source: "daypo" },
+            { question: "Describe brevemente la corriente pedagógica del conductismo. (D)", answer: "El conductismo es una teoría psicológica que centra su estudio en la conducta observable, entendiendo el aprendizaje como una asociación entre un estímulo y una respuesta. En el aula, se traduce en un modelo donde el profesor es la autoridad que modela el comportamiento del alumno, un receptor pasivo, a través de refuerzos y castigos.", source: "daypo" },
+            { question: "Explica las principales diferencias entre el aprendizaje basado en proyectos y el aprendizaje basado en problemas. (D)", answer: "La principal diferencia radica en el enfoque: el Aprendizaje Basado en Proyectos (ABP) se centra en la creación de un <strong>producto final tangible</strong> como respuesta a una pregunta o problema. En cambio, el Aprendizaje Basado en Problemas (PBL) pone el énfasis en el <strong>proceso de investigación y aprendizaje</strong> que los alumnos siguen para dar solución a un problema, que puede ser hipotético y no requiere necesariamente un producto.", source: "daypo" },
+            { question: "¿Qué son las adaptaciones curriculares significativas? (D)", answer: "Las adaptaciones curriculares significativas (ACS) son una <strong>medida extraordinaria</strong> de atención a la diversidad que consiste en la modificación o eliminación de los elementos prescriptivos del currículo (objetivos, contenidos y criterios de evaluación) para un alumno con necesidades educativas especiales. Requieren una evaluación psicopedagógica previa.", source: "daypo" },
+            { question: "Describe 3 funciones de la imagen brevemente. (D)", answer: "Tres funciones son: la <strong>conativa</strong>, que busca persuadir al espectador (publicidad); la <strong>emotiva</strong>, que apela a los sentimientos y la subjetividad (una fotografía personal); y la <strong>referencial</strong>, que busca informar de manera objetiva sobre un hecho (un gráfico en un periódico).", source: "daypo" },
+            { question: "¿Qué son los elementos transversales? (D)", answer: "Los elementos transversales son contenidos educativos, principalmente actitudinales y en valores (como la igualdad de género, la educación para la paz o la competencia digital), que no pertenecen a una única materia, sino que deben integrarse y trabajarse en todas las áreas del currículo para asegurar una formación integral del alumnado.", source: "daypo" },
+            { question: "¿Qué es el profesor community manager? (D)", answer: "Es un nuevo estilo docente que adapta las habilidades de un gestor de comunidades al ámbito educativo. Su función es crear, dinamizar y gestionar una comunidad de aprendizaje (a menudo online), curando contenidos de interés, fomentando la conversación y la colaboración, y utilizando herramientas digitales para conectar a los estudiantes.", source: "daypo" },
+            { question: "¿Qué es el Profesor DJ? (D)", answer: "A diferencia del 'profesor karaoke' que solo reproduce contenidos, el Profesor DJ es un creador que explora, selecciona y mezcla diversas fuentes de información (vídeos, artículos, podcasts) para construir una experiencia de aprendizaje única, personalizada y significativa para sus alumnos.", source: "daypo" },
+            { question: "¿Qué es el Profesor Hacker? (D)", answer: "El Profesor Hacker es un docente innovador y apasionado que no se conforma con el sistema. Se caracteriza por su curiosidad para entender cómo funcionan los procesos educativos y por su impulso para experimentar y 'hackear' el sistema en busca de mejores formas de enseñar y aprender.", source: "daypo" },
+            { question: "¿Qué es el Profesor Coach? (D)", answer: "Es un estilo docente que se enfoca en ser un 'entrenador' de habilidades y actitudes. En lugar de ser la principal fuente de información, el coach guía, motiva y empodera a los alumnos para que se conviertan en los protagonistas y responsables de su propio proceso de aprendizaje.", source: "daypo" },
+            { question: "¿Qué es el aula invertida? (D)", answer: "El aula invertida (o flipped classroom) es una metodología pedagógica que invierte el modelo tradicional de enseñanza. La instrucción teórica se realiza en casa (generalmente a través de vídeos), y el tiempo en el aula se dedica a actividades prácticas, trabajo colaborativo y resolución de dudas con el apoyo del docente.", source: "daypo" },
+            { question: "¿Cuáles son las fases de la visita a un museo? (D)", answer: "Una visita a un museo se estructura en tres fases clave para que sea una experiencia educativa completa: <strong>Antes</strong> (preparación y contextualización en el aula), <strong>Durante</strong> (participación activa y diálogo en el museo) y <strong>Después</strong> (análisis, reflexión e integración de lo aprendido de vuelta en el aula).", source: "daypo" },
+            { question: "¿Qué es la transversalidad en educación? (D)", answer: "La transversalidad es un principio pedagógico que busca integrar ciertos contenidos y valores fundamentales (como la igualdad, la sostenibilidad o la competencia digital) en todas las áreas y materias del currículo. Estos temas 'atraviesan' las asignaturas, evitando que queden relegados a una materia concreta y fomentando una formación más integral.", source: "daypo" }
         ];
 
         let currentQuestionIndex = 0;
@@ -608,6 +497,8 @@
         let incorrectAnswers = [];
         let selectedOption = null;
         let answerChecked = false;
+        let quizFilter = 'all';
+        let currentQuizData = [];
 
         function showTab(index, element) {
             tabs.forEach(tab => tab.classList.remove('active-tab'));
@@ -620,8 +511,28 @@
         function toggleCard(element) {
             element.classList.toggle('open');
         }
+        
+        function setQuizFilter(filter, element) {
+            quizFilter = filter;
+            const buttons = document.querySelectorAll('#quiz-filter-container .filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active-filter'));
+            element.classList.add('active-filter');
+        }
+
+        function filterDevQuestions(filter, element) {
+            const buttons = document.querySelectorAll('#development-questions-container ~ .flex .filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active-filter'));
+            element.classList.add('active-filter');
+            populateDevelopmentQuestions(filter);
+        }
 
         function startQuiz() {
+            if (quizFilter === 'daypo') {
+                currentQuizData = quizData.filter(q => q.source === 'daypo');
+            } else {
+                currentQuizData = [...quizData];
+            }
+
             document.getElementById('quiz-start-screen').classList.add('hidden');
             document.getElementById('quiz-main-screen').classList.remove('hidden');
             currentQuestionIndex = 0;
@@ -641,10 +552,10 @@
         function showQuestion() {
             answerChecked = false;
             selectedOption = null;
-            const questionData = quizData[currentQuestionIndex];
+            const questionData = currentQuizData[currentQuestionIndex];
             
-            document.getElementById('progress-bar').style.width = `${((currentQuestionIndex) / quizData.length) * 100}%`;
-            document.getElementById('question-counter').textContent = `Pregunta ${currentQuestionIndex + 1} de ${quizData.length}`;
+            document.getElementById('progress-bar').style.width = `${((currentQuestionIndex) / currentQuizData.length) * 100}%`;
+            document.getElementById('question-counter').textContent = `Pregunta ${currentQuestionIndex + 1} de ${currentQuizData.length}`;
             document.getElementById('question-text').textContent = questionData.question;
             
             const optionsContainer = document.getElementById('options-container');
@@ -676,7 +587,7 @@
         function checkAnswer() {
             if (selectedOption === null) return;
             answerChecked = true;
-            const questionData = quizData[currentQuestionIndex];
+            const questionData = currentQuizData[currentQuestionIndex];
             const options = document.querySelectorAll('.quiz-option');
             
             options.forEach(opt => opt.disabled = true);
@@ -691,7 +602,8 @@
                 feedbackText.innerHTML = `<strong class="text-green-700">¡Correcto!</strong> ${questionData.explanation}`;
                 feedbackText.className = 'p-4 rounded-lg bg-green-100 text-green-800 border border-green-200';
             } else {
-                incorrectAnswers.push(questionData);
+                const incorrectQuestionData = { ...questionData, selected: selectedOption };
+                incorrectAnswers.push(incorrectQuestionData);
                 document.getElementById('score-incorrect').textContent = incorrectAnswers.length;
                 options[selectedOption].classList.add('incorrect');
                 options[questionData.answer].classList.add('correct');
@@ -706,7 +618,7 @@
 
         function nextQuestion() {
             currentQuestionIndex++;
-            if (currentQuestionIndex < quizData.length) {
+            if (currentQuestionIndex < currentQuizData.length) {
                 showQuestion();
             } else {
                 showResults();
@@ -745,10 +657,15 @@
             });
         }
         
-        function populateDevelopmentQuestions() {
+        function populateDevelopmentQuestions(filter = 'all') {
             const container = document.getElementById('development-questions-container');
             container.innerHTML = '';
-            developmentQuestions.forEach(q => {
+            
+            const filteredQuestions = (filter === 'daypo')
+                ? developmentQuestions.filter(q => q.source === 'daypo')
+                : developmentQuestions;
+
+            filteredQuestions.forEach(q => {
                 const card = document.createElement('div');
                 card.className = 'card bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden cursor-pointer';
                 card.onclick = () => toggleCard(card);
@@ -790,6 +707,9 @@
         document.addEventListener('DOMContentLoaded', () => {
             populateDevelopmentQuestions();
             populateConceptosClave();
+            const daypoQuizCount = quizData.filter(q => q.source === 'daypo').length;
+            document.getElementById('filter-quiz-all').textContent = `Todas (${quizData.length})`;
+            document.getElementById('filter-quiz-daypo').textContent = `Nuevas (D) (${daypoQuizCount})`;
         });
     </script>
 
