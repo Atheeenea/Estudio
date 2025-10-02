@@ -8,7 +8,7 @@
     <!-- Chosen Palette: Foco Calmado (Teal & Slate) -->
     <!-- Application Structure Plan: La aplicación se ha reestructurado en cuatro secciones principales para mayor claridad: "Resumen" (dashboard con conceptos clave desarrollados), "Conceptos" (agrupando el resto del temario relevante no duplicado), "Desarrollo" (práctica específica) y "Test" (evaluación interactiva). Esta estructura simplificada centraliza la información y mejora el flujo de estudio. -->
     <!-- Visualization & Content Choices: 
-    - Contenido Teórico y Preguntas de Desarrollo: Report Info -> Conceptos clave del temario y sus subtemas. Goal -> Organizar/Informar/Sintetizar. Viz/Method -> Tarjetas interactivas con contenido expandido (HTML/JS). Interaction -> Clic para expandir. Justification -> Presentación ordenada y sin sobrecarga de información, ideal para estudio y repaso.
+    - Contenido Teórico y Preguntas de Desarrollo: Report Info -> Conceptos clave del temario y sus subtemas. Goal -> Organizar/Informar/Sintetizar. Viz/Method -> Tarjetas interactivas con contenido expandido y elementos visuales (diagramas, tablas). Interaction -> Clic para expandir. Justification -> Presentación ordenada, visual y sin sobrecarga de información.
     - Comparativas: Report Info -> Comparación de metodologías/modelos. Goal -> Comparar. Viz/Method -> Tablas (HTML). Interaction -> Estática. Justification -> Síntesis visual clara y directa.
     - Autoevaluación (Test): Report Info -> Temario completo. Goal -> Evaluar/Reforzar. Viz/Method -> Quiz interactivo (HTML/JS). Interaction -> Selección, feedback, revisión. Justification -> Fomenta el aprendizaje activo. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
@@ -35,11 +35,11 @@
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
-            padding: 0 1.5rem;
+            padding: 0 1rem;
         }
         .card.open .card-content {
-            max-height: 1500px; /* Aumentado para más contenido */
-            padding: 1rem 1.5rem;
+            max-height: 1500px;
+            padding: 1rem 1rem;
         }
         .card.open .chevron {
             transform: rotate(180deg);
@@ -62,11 +62,19 @@
             background-color: #fee2e2;
             border-color: #ef4444;
         }
+        pre {
+            background-color: #f8fafc;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-family: monospace;
+            white-space: pre-wrap;
+            font-size: 0.875rem;
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
 
-    <div class="container mx-auto p-4 md:p-8">
+    <div class="container mx-auto px-4 py-6 md:px-8">
         <header class="text-center mb-8">
             <h1 class="text-4xl md:text-5xl font-bold text-teal-900">Guía de Estudio Interactiva</h1>
             <p class="text-lg text-teal-800 mt-2">Aprendizaje y Enseñanza del Dibujo</p>
@@ -82,18 +90,18 @@
         <main>
             <!-- Resumen del Examen -->
             <section class="content-section active">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
-                    <div class="bg-amber-50 p-6 rounded-lg border border-amber-200 mb-6">
+                <div class="bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-gray-200">
+                    <div class="bg-amber-50 p-4 md:p-6 rounded-lg border border-amber-200 mb-6">
                         <h3 class="font-semibold text-xl text-amber-800 mb-4 text-center">Desarrollo de Conceptos Clave</h3>
                         <p class="text-center text-amber-900 mb-4">Haz clic en cada tema para ver una explicación detallada, ideal para las preguntas de desarrollo.</p>
                         <div class="space-y-3" id="conceptos-clave-container">
                              <!-- El contenido se generará con JS -->
                         </div>
                     </div>
-                     <div class="mt-6">
+                     <div class="mt-8">
                         <h2 class="text-2xl font-bold text-teal-900 text-center mb-6">Preparación para la Prueba Final</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="bg-teal-50 p-6 rounded-lg border border-teal-200">
+                            <div class="bg-teal-50 p-4 md:p-6 rounded-lg border border-teal-200">
                                 <h3 class="font-semibold text-xl text-teal-800 mb-3">Estructura del Examen</h3>
                                 <ul class="list-disc list-inside space-y-2 text-slate-700">
                                     <li><strong>20 preguntas tipo test</strong> (5 puntos en total).</li>
@@ -102,7 +110,7 @@
                                     <li>Tiempo total: <strong>60 minutos</strong>.</li>
                                 </ul>
                             </div>
-                            <div class="bg-teal-50 p-6 rounded-lg border border-teal-200">
+                            <div class="bg-teal-50 p-4 md:p-6 rounded-lg border border-teal-200">
                                 <h3 class="font-semibold text-xl text-teal-800 mb-3">Temario a Estudiar</h3>
                                 <ul class="list-disc list-inside space-y-2 text-slate-700">
                                     <li>Manual de la asignatura: <strong>Unidad 5, Unidad 6 y punto 1.4</strong>.</li>
@@ -117,14 +125,14 @@
             
             <!-- Otros conceptos importantes -->
             <section class="content-section">
-                 <div class="bg-teal-100/60 p-6 rounded-2xl mb-8 border border-teal-200">
+                 <div class="bg-teal-100/60 p-4 md:p-6 rounded-2xl mb-8 border border-teal-200">
                     <p class="text-teal-900 text-center">Esta sección agrupa otros conceptos importantes mencionados en las videoconferencias que complementan la información principal. Son temas relevantes para el examen que no se han desarrollado en la pestaña de "Resumen".</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="md:col-span-2">
                         <div class="card bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden cursor-pointer" onclick="toggleCard(this)">
-                            <div class="p-6 flex justify-between items-center">
+                            <div class="p-4 md:p-6 flex justify-between items-center">
                                 <h3 class="text-xl font-semibold text-teal-800">Enfoques y Paradigmas de la Educación Artística</h3>
                                 <span class="chevron text-teal-800">&#9660;</span>
                             </div>
@@ -141,7 +149,7 @@
                         </div>
                     </div>
                     <div class="card bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden cursor-pointer" onclick="toggleCard(this)">
-                        <div class="p-6 flex justify-between items-center">
+                        <div class="p-4 md:p-6 flex justify-between items-center">
                             <h3 class="text-xl font-semibold text-teal-800">Teóricos Clave del Arte y la Percepción</h3>
                             <span class="chevron text-teal-800">&#9660;</span>
                         </div>
@@ -154,7 +162,7 @@
                         </div>
                     </div>
                     <div class="card bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden cursor-pointer" onclick="toggleCard(this)">
-                        <div class="p-6 flex justify-between items-center">
+                        <div class="p-4 md:p-6 flex justify-between items-center">
                             <h3 class="text-xl font-semibold text-teal-800">Conceptos del Contexto Educativo</h3>
                             <span class="chevron text-teal-800">&#9660;</span>
                         </div>
@@ -167,7 +175,7 @@
                     </div>
                      <div class="md:col-span-2">
                          <div class="card bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden cursor-pointer" onclick="toggleCard(this)">
-                            <div class="p-6 flex justify-between items-center">
+                            <div class="p-4 md:p-6 flex justify-between items-center">
                                 <h3 class="text-xl font-semibold text-teal-800">Estrategias Específicas de Enseñanza del Dibujo</h3>
                                 <span class="chevron text-teal-800">&#9660;</span>
                             </div>
@@ -184,7 +192,7 @@
                         </div>
                     </div>
                     <div class="card bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden cursor-pointer" onclick="toggleCard(this)">
-                        <div class="p-6 flex justify-between items-center">
+                        <div class="p-4 md:p-6 flex justify-between items-center">
                             <h3 class="text-xl font-semibold text-teal-800">Art Brut (Arte Marginal)</h3>
                             <span class="chevron text-teal-800">&#9660;</span>
                         </div>
@@ -194,7 +202,7 @@
                         </div>
                     </div>
                      <div class="card bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden cursor-pointer" onclick="toggleCard(this)">
-                        <div class="p-6 flex justify-between items-center">
+                        <div class="p-4 md:p-6 flex justify-between items-center">
                             <h3 class="text-xl font-semibold text-teal-800">El Rol del Docente y la Relación con el Museo</h3>
                             <span class="chevron text-teal-800">&#9660;</span>
                         </div>
@@ -208,7 +216,7 @@
                     </div>
                     <div class="md:col-span-2">
                         <div class="card bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden cursor-pointer" onclick="toggleCard(this)">
-                           <div class="p-6 flex justify-between items-center">
+                           <div class="p-4 md:p-6 flex justify-between items-center">
                                <h3 class="text-xl font-semibold text-teal-800">Conceptos de la Visita al Museo (Actividad Aplicativa)</h3>
                                <span class="chevron text-teal-800">&#9660;</span>
                            </div>
@@ -239,7 +247,7 @@
             
             <!-- Preguntas de Desarrollo -->
             <section class="content-section">
-                <div class="bg-amber-50 p-6 rounded-2xl mb-8 border border-amber-200">
+                <div class="bg-amber-50 p-4 md:p-6 rounded-2xl mb-8 border border-amber-200">
                     <p class="text-amber-900 text-center">Esta sección contiene 20 posibles preguntas de desarrollo para el examen, formuladas para practicar tu capacidad de síntesis y argumentación. Haz clic en cada una para desplegar la respuesta.</p>
                 </div>
                 <div id="development-questions-container" class="space-y-4">
@@ -249,9 +257,9 @@
 
             <!-- Test -->
             <section class="content-section">
-                <div id="quiz-container" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                <div id="quiz-container" class="bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-gray-200">
                     <div id="quiz-start-screen">
-                         <div class="bg-teal-100/60 p-6 rounded-2xl mb-8 border border-teal-200">
+                         <div class="bg-teal-100/60 p-4 md:p-6 rounded-2xl mb-8 border border-teal-200">
                             <h2 class="text-2xl font-bold text-teal-900 text-center mb-4">Test</h2>
                             <p class="text-teal-900 text-center">Pon a prueba tus conocimientos con este test de 80 preguntas. Recibirás una explicación con cada respuesta. ¡Mucha suerte!</p>
                         </div>
@@ -427,6 +435,14 @@
             {
                 title: "Funciones de la imagen",
                 content: `
+                    <div class="bg-gray-100 p-4 rounded-lg mb-4">
+                        <p class="text-center font-semibold text-teal-800">VISUALIZACIÓN RÁPIDA DE FUNCIONES:</p>
+                        <p class="text-center text-slate-600">🗣️ <strong>Conativa/Apelativa:</strong> Persuadir (Publicidad)</p>
+                        <p class="text-center text-slate-600">✨ <strong>Fática:</strong> Llamar la atención (Señales)</p>
+                        <p class="text-center text-slate-600">😊 <strong>Emotiva/Expresiva:</strong> Transmitir sentimientos (Arte, fotos)</p>
+                        <p class="text-center text-slate-600">ℹ️ <strong>Referencial/Informativa:</strong> Informar, ilustrar (Mapas)</p>
+                        <p class="text-center text-slate-600">🎨 <strong>Poética/Estética:</strong> Crear belleza (Obras de arte)</p>
+                    </div>
                     <h4 class="font-semibold text-teal-900 mb-2">Función Conativa o Apelativa</h4>
                     <p class="text-slate-700 mb-3">Busca influir o persuadir al espectador para que actúe de una determinada manera. Es la función principal de la publicidad, que intenta convencer al público para que compre un producto o adopte una idea.</p>
                     <h4 class="font-semibold text-teal-900 mb-2">Función Fática</h4>
@@ -442,6 +458,23 @@
             {
                 title: "Escenarios enseñanza-aprendizaje",
                 content: `
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-center">
+                        <div class="bg-teal-50 p-4 rounded-lg border border-teal-200">
+                            <h5 class="font-bold text-teal-900 mb-1">FORMAL</h5>
+                            <p class="text-sm text-teal-800">(Reglado, con Título)</p>
+                            <p class="text-xs text-slate-500 mt-2">Colegios, Universidades</p>
+                        </div>
+                        <div class="bg-teal-50 p-4 rounded-lg border border-teal-200">
+                            <h5 class="font-bold text-teal-900 mb-1">NO FORMAL</h5>
+                            <p class="text-sm text-teal-800">(Intencional, sin Título)</p>
+                            <p class="text-xs text-slate-500 mt-2">Museos, Talleres</p>
+                        </div>
+                        <div class="bg-teal-50 p-4 rounded-lg border border-teal-200">
+                            <h5 class="font-bold text-teal-900 mb-1">INFORMAL</h5>
+                            <p class="text-sm text-teal-800">(Espontáneo, Experiencial)</p>
+                             <p class="text-xs text-slate-500 mt-2">Vida cotidiana, Amigos</p>
+                        </div>
+                    </div>
                     <h4 class="font-semibold text-teal-900 mb-2">Educación Formal</h4>
                     <p class="text-slate-700 mb-3">Es el aprendizaje que ocurre en un sistema educativo estructurado, reglado y jerarquizado, como colegios, institutos y universidades. Es intencional, planificado y conduce a la obtención de una certificación o título oficial reconocido.</p>
                     <h4 class="font-semibold text-teal-900 mb-2">Educación No Formal</h4>
@@ -464,6 +497,30 @@
             {
                 title: "Medidas de atención ordinarias y extraordinarias",
                 content: `
+                    <div class="overflow-x-auto mb-4">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-teal-100">
+                                    <th class="p-3 border border-teal-200 font-semibold text-teal-900">Medidas Ordinarias</th>
+                                    <th class="p-3 border border-teal-200 font-semibold text-teal-900">Medidas Extraordinarias</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white">
+                                    <td class="p-3 border border-teal-200"><strong>NO</strong> modifican elementos prescriptivos del currículo.</td>
+                                    <td class="p-3 border border-teal-200"><strong>SÍ</strong> pueden modificar elementos prescriptivos del currículo.</td>
+                                </tr>
+                                <tr class="bg-teal-50">
+                                    <td class="p-3 border border-teal-200">Se aplican de forma general y flexible.</td>
+                                    <td class="p-3 border border-teal-200">Requieren una <strong>evaluación psicopedagógica</strong> previa.</td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="p-3 border border-teal-200">Ej: Adaptaciones no significativas, refuerzos (PTI).</td>
+                                    <td class="p-3 border border-teal-200">Ej: Adaptaciones curriculares significativas (ACS).</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                     <h4 class="font-semibold text-teal-900 mb-2">Medidas Ordinarias</h4>
                     <p class="text-slate-700 mb-3">Son estrategias y acciones educativas que se aplican de forma general para atender a la diversidad del aula sin modificar los elementos prescriptivos del currículo (objetivos, contenidos y criterios de evaluación). Incluyen metodologías flexibles, distintas formas de agrupamiento, programas de refuerzo (PTI) o adaptaciones curriculares no significativas, que afectan a elementos como los tiempos, las actividades o la forma de presentar la información.</p>
                     <h4 class="font-semibold text-teal-900 mb-2">Medidas Extraordinarias</h4>
@@ -473,6 +530,13 @@
             {
                 title: "Metodologías contemporáneas",
                 content: `
+                    <div class="bg-gray-100 p-4 rounded-lg mb-4 text-center">
+                        <p class="font-semibold text-teal-800">VISUALIZACIÓN RÁPIDA DE METODOLOGÍAS:</p>
+                        <p class="text-slate-600">🔄 <strong>Aula Invertida:</strong> Teoría en casa ➔ Práctica en clase.</p>
+                        <p class="text-slate-600">🎮 <strong>Gamificación:</strong> Usar mecánicas de juego para motivar.</p>
+                        <p class="text-slate-600">🏗️ <strong>ABP (Proyectos):</strong> Foco en el <strong>producto final</strong> para resolver un problema.</p>
+                        <p class="text-slate-600">❓ <strong>PBL (Problemas):</strong> Foco en el <strong>proceso de investigación</strong> para resolver un problema.</p>
+                    </div>
                     <h4 class="font-semibold text-teal-900 mb-2">Aula Invertida (Flipped Classroom)</h4>
                     <p class="text-slate-700 mb-3">Invierte el modelo tradicional: la instrucción directa (lección teórica) se traslada fuera del aula, a través de vídeos o lecturas, y el tiempo presencial se aprovecha para realizar actividades prácticas, resolver dudas y fomentar el aprendizaje colaborativo, con el docente como guía.</p>
                     <h4 class="font-semibold text-teal-900 mb-2">Gamificación</h4>
@@ -486,6 +550,11 @@
             {
                 title: "Ingeniería concurrente vs. secuencial",
                 content: `
+                    <div class="bg-gray-100 p-4 rounded-lg mb-4 text-center">
+                        <p class="font-semibold text-teal-800">DIAGRAMA DE FLUJO:</p>
+                        <p class="text-slate-600 font-mono"><strong>Secuencial:</strong> [Diseño] → [Producción] → [Marketing] (Lineal y Aislado)</p>
+                        <p class="text-slate-600 font-mono mt-2"><strong>Concurrente:</strong> &lt;-- Retroalimentación --&gt;<br>| Diseño | Producción | Marketing | (Colaborativo)</p>
+                    </div>
                     <h4 class="font-semibold text-teal-900 mb-2">Ingeniería Secuencial</h4>
                     <p class="text-slate-700 mb-3">Es el modelo de diseño y producción tradicional, también llamado "en cascada". El proceso es lineal y cada departamento (diseño, producción, marketing, etc.) trabaja de forma aislada, pasando el proyecto al siguiente una vez ha finalizado su fase. Es un método rígido donde los errores detectados tardíamente son muy costosos de corregir.</p>
                     <h4 class="font-semibold text-teal-900 mb-2">Ingeniería Concurrente</h4>
@@ -495,6 +564,11 @@
             {
                 title: "Corrientes pedagógicas",
                 content: `
+                    <div class="bg-gray-100 p-4 rounded-lg mb-4 text-center">
+                        <p class="font-semibold text-teal-800">EVOLUCIÓN DEL FOCO DE APRENDIZAJE:</p>
+                        <p class="text-slate-600 font-mono">[Conductismo] → [Cognitivismo] → [Constructivismo] → [Conectivismo]</p>
+                        <p class="text-sm text-slate-500">(Conducta externa) → (Procesos mentales) → (Construcción activa) → (Conexiones en red)</p>
+                    </div>
                     <h4 class="font-semibold text-teal-900 mb-2">Conductismo</h4>
                     <p class="text-slate-700 mb-3">Enfoque centrado en la conducta observable. Considera el aprendizaje como una asociación entre un estímulo externo y una respuesta, modelada a través de refuerzos (premios o castigos). El alumno es un receptor pasivo y el profesor es la autoridad que transmite el conocimiento.</p>
                     <h4 class="font-semibold text-teal-900 mb-2">Cognitivismo</h4>
@@ -679,7 +753,7 @@
                 card.className = 'card bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden cursor-pointer';
                 card.onclick = () => toggleCard(card);
                 card.innerHTML = `
-                    <div class="p-6 flex justify-between items-center">
+                    <div class="p-4 md:p-6 flex justify-between items-center">
                         <h3 class="text-lg font-semibold text-teal-800">${q.question}</h3>
                         <span class="chevron text-teal-800 text-2xl font-light">&#9660;</span>
                     </div>
