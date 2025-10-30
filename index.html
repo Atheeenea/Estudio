@@ -19,10 +19,10 @@
         .accordion-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.5s ease-in-out; /* Slower transition */
+            transition: max-height 0.5s ease-in-out;
         }
         .accordion-button.open + .accordion-content {
-            max-height: 2500px; /* Increased max-height */
+            max-height: 3500px; /* Aumentado aún más para el nuevo contenido */
         }
         .accordion-button svg {
             transition: transform 0.3s ease;
@@ -50,6 +50,39 @@
             background-color: #3b82f6;
             color: white;
         }
+
+        /* Estilos para el nuevo modo Flashcard */
+        .flashcard-option {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid #e5e7eb;
+        }
+        .flashcard-option:hover {
+            background-color: #f3f4f6;
+        }
+        .flashcard-option.selected {
+            transform: scale(1.02);
+        }
+        .flashcard-option.correct {
+            background-color: #dcfce7 !important;
+            border-color: #166534 !important;
+            color: #166534;
+            font-weight: 600;
+        }
+        .flashcard-option.incorrect {
+            background-color: #fee2e2 !important;
+            border-color: #991b1b !important;
+            color: #991b1b;
+            font-weight: 600;
+        }
+        .options-locked .flashcard-option:not(.selected) {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+         .options-locked .flashcard-option:not(.correct):not(.incorrect) {
+            background-color: #f9fafb; /* Fondo neutro para no respondidas */
+        }
+
     </style>
 </head>
 <body class="text-gray-800">
@@ -66,7 +99,8 @@
             <button class="tab-button py-2 px-4 border-b-2 border-transparent rounded-t-lg transition-colors duration-300" data-tab="unidad2">Unidad 2</button>
             <button class="tab-button py-2 px-4 border-b-2 border-transparent rounded-t-lg transition-colors duration-300" data-tab="unidad3">Unidad 3</button>
             <button class="tab-button py-2 px-4 border-b-2 border-transparent rounded-t-lg transition-colors duration-300" data-tab="desarrollo">Preguntas de Desarrollo</button>
-            <button class="tab-button py-2 px-4 border-b-2 border-transparent rounded-t-lg transition-colors duration-300" data-tab="test">Test de Autoevaluación</button>
+            <button class="tab-button py-2 px-4 border-b-2 border-transparent rounded-t-lg transition-colors duration-300" data-tab="test">Test (Práctica)</button>
+            <button class="tab-button py-2 px-4 border-b-2 border-transparent rounded-t-lg transition-colors duration-300" data-tab="test-flashcard">Test (Flashcards)</button>
         </div>
 
         <!-- Contenido de las Pestañas -->
@@ -74,7 +108,7 @@
             <!-- Sección 1: Unidad 1 -->
             <div id="unidad1" class="tab-pane active space-y-4">
                 <h2 class="text-2xl font-bold text-gray-800 mb-4">Unidad 1: La investigación en el aula de educación artística</h2>
-
+                
                 <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
                     <button class="accordion-button w-full text-left flex justify-between items-center font-semibold text-lg text-blue-600">
                         <span>Paradigmas de Investigación Educativa</span>
@@ -110,7 +144,7 @@
                         </table>
                     </div>
                 </div>
-
+                
                 <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
                     <button class="accordion-button w-full text-left flex justify-between items-center font-semibold text-lg text-blue-600">
                         <span>Métodos de Investigación (1.4)</span>
@@ -264,18 +298,26 @@
 
                 <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
                     <button class="accordion-button w-full text-left flex justify-between items-center font-semibold text-lg text-blue-600">
-                        <span>Evaluación Innovadora (3.2)</span>
+                        <span>Evaluación Innovadora (3.2.1)</span>
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
                     <div class="accordion-content">
-                        <p class="mt-3 text-gray-700">Supera el modelo tradicional (evaluación sumativa) centrado en la calificación numérica al final del proceso. Se concibe como una herramienta para regular y mejorar el proceso de enseñanza-aprendizaje, tanto para el alumno como para el docente.</p>
-                        <p class="mt-4 font-semibold">Principios Clave:</p>
+                        <p class="mt-3 text-gray-700">Supera el modelo tradicional (evaluación sumativa) centrado en la calificación numérica al final del proceso. Se concibe como una herramienta para regular y mejorar el proceso de enseñanza-aprendizaje, tanto para el alumno como para el docente. Es una oportunidad de mejora bidireccional.</p>
+                        <p class="mt-4 font-semibold">Principios Clave (Serrano, 2002):</p>
                         <ul class="list-disc list-inside mt-2 space-y-2 text-gray-700">
-                            <li><strong>Es Formativa, no Punitiva:</strong> Su objetivo es ayudar a aprender, no solo medir el rendimiento. El error es una oportunidad de aprendizaje, no un fracaso.</li>
-                            <li><strong>Promueve la Autorregulación:</strong> Ayuda al alumno a entender qué está haciendo bien, qué está haciendo mal y cómo puede mejorar. Aprende a "aprender a aprender".</li>
-                            <li><strong>Es Auténtica:</strong> Utiliza tareas significativas, complejas y contextualizadas (ej. proyectos, portafolios, resolver un problema real) en lugar de solo exámenes de memoria.</li>
-                            <li><strong>Fomenta el Diálogo:</strong> El feedback es clave. Se discuten los resultados para construir significado.</li>
-                            <li><strong>Da Protagonismo al Estudiante:</strong> Se complementa la evaluación del profesor (heteroevaluación) con la **autoevaluación** (el alumno se evalúa a sí mismo) y la **coevaluación** (evaluación entre pares).</li>
+                            <li>Realizar una **evaluación inicial** para conocer el punto de partida.</li>
+                            <li>Proponer **tareas significativas, complejas y contextualizadas** (auténticas), no solo exámenes de memoria.</li>
+                            <li>**Es Formativa, no Punitiva:** Su objetivo es ayudar a aprender. El error es una oportunidad.</li>
+                            <li>**Promueve la Autorregulación:** Ayuda al alumno a entender qué está haciendo bien, qué mal y cómo puede mejorar.</li>
+                            <li>**Fomenta el Diálogo:** El feedback es clave. Se discuten los resultados para construir significado.</li>
+                            <li>**Da Protagonismo al Estudiante:** Se complementa la heteroevaluación (profesor) con la **autoevaluación** (el alumno se evalúa a sí mismo) y la **coevaluación** (evaluación entre pares).</li>
+                        </ul>
+                        <p class="mt-4 font-semibold">Reformulación (María Acaso):</p>
+                         <ul class="list-disc list-inside mt-2 space-y-2 text-gray-700">
+                            <li>**Descentrarla:** Quitarle el poder punitivo y usarla como herramienta de mejora.</li>
+                            <li>**Crear otras formas de representación:** Ir más allá del número (evaluación cualitativa).</li>
+                            <li>**Incluir la participación:** Fomentar la autoevaluación y coevaluación.</li>
+                            <li>**Reconectar con el placer:** Ver la evaluación como un momento de celebración y aprendizaje, no de miedo.</li>
                         </ul>
                         <p class="mt-4 font-semibold text-gray-800">Instrumentos de Evaluación Innovadora:</p>
                         <ul class="list-disc list-inside mt-2 space-y-1 text-gray-700">
@@ -294,14 +336,68 @@
                     <div class="accordion-content">
                         <p class="mt-3 text-gray-700">Es un instrumento de diagnóstico que permite al profesor analizar sus propias prácticas, identificar necesidades y encontrar puntos de mejora. Es la clave para el **crecimiento profesional continuo**.</p>
                         <p class="mt-3 text-gray-700">Un docente no puede quedarse estancado en las metodologías que aprendió en la universidad. La sociedad, la tecnología y los alumnos cambian. La autoevaluación es la principal herramienta para detectar qué prácticas funcionan, cuáles están obsoletas y qué nuevas metodologías se pueden incorporar.</p>
-                        <p class="mt-4 font-semibold text-gray-800">Estrategias para la Autoevaluación y Mejora:</p>
+                        <p class="mt-4 font-semibold text-gray-800">Estrategias para la Autoevaluación y Mejora (Barber & Mourshed):</p>
                         <ul class="list-disc list-inside mt-2 space-y-1 text-gray-700">
-                            <li><strong>Portafolio Docente Reflexivo:</strong> Similar al del alumno. El profesor documenta sus proyectos, actividades y reflexiona sobre qué salió bien, qué salió mal y por qué.</li>
-                            <li><strong>Comunidades de Práctica:</strong> Grupos de docentes que se reúnen para compartir experiencias, resolver problemas y diseñar proyectos en conjunto. Rompe el aislamiento.</li>
-                            <li><strong>Observación entre Pares:</strong> Invitar a un compañero a tu clase para que te observe y te dé feedback constructivo (y viceversa).</li>
+                            <li><strong>Portafolio Docente Reflexivo:</strong> El profesor documenta sus proyectos y reflexiona sobre qué salió bien, qué mal y por qué.</li>
+                            <li><strong>Comunidades de Práctica / Aprendizaje Común:</strong> Grupos de docentes que se reúnen para compartir experiencias, resolver problemas y diseñar proyectos en conjunto. Rompe el aislamiento.</li>
+                            <li><strong>Observación entre Pares:</strong> Invitar a un compañero a tu clase (o un "coach" externo) para que te observe y te dé feedback constructivo.</li>
+                            <li><strong>Uso de Rúbricas:</strong> El propio docente puede usar rúbricas para analizar su desempeño en diferentes áreas (planificación, gestión del aula, evaluación...).</li>
                         </ul>
                     </div>
                 </div>
+
+                <!-- NUEVO CONTENIDO Vc3 -->
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                    <button class="accordion-button w-full text-left flex justify-between items-center font-semibold text-lg text-blue-600">
+                        <span>El Crecimiento Profesional del Docente (3.3)</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content">
+                        <p class="mt-3 text-gray-700">La autoevaluación (diagnóstico) está directamente conectada con la **formación continua** (tratamiento). El crecimiento profesional es una necesidad para adaptarse a los cambios constantes.</p>
+                        <ul class="list-disc list-inside mt-2 space-y-2 text-gray-700">
+                            <li><strong>Estrategia Clave:</strong> El **aprendizaje colectivo** (mencionado en el punto anterior) se considera la estrategia más eficaz. Compartir, observar a compañeros y planificar juntos rompe el aislamiento tradicional del docente.</li>
+                            <li><strong>Cambio de Rol:</strong> El docente deja de ser un mero "transmisor de contenidos". La innovación exige nuevos roles:
+                                <ul>
+                                    <li>- **Consultor-facilitador:** Guía el aprendizaje en lugar de dictarlo.</li>
+                                    <li>- **Diseñador de medios/entornos:** Crea experiencias de aprendizaje.</li>
+                                    <li>- **Moderador y tutor:** Gestiona debates y acompaña al alumno.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Nuevas Competencias:</strong> Este cambio de rol exige desarrollar nuevas habilidades, como la gestión de emociones (propias y del grupo), la capacidad de trabajo en equipo y una sólida competencia digital.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- NUEVO CONTENIDO Vc3 -->
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                    <button class="accordion-button w-full text-left flex justify-between items-center font-semibold text-lg text-blue-600">
+                        <span>Nuevos Retos para la Educación (3.4)</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content">
+                        <p class="mt-3 text-gray-700">La educación artística y el dibujo son herramientas potentes para afrontar los retos de la sociedad actual.</p>
+                        
+                        <h4 class="font-semibold text-gray-800 mt-4">1. Fomentar la Creatividad:</h4>
+                        <p class="text-gray-700">La creatividad (entendida como la capacidad de resolver problemas de formas nuevas y valiosas - Gardner) no es exclusiva de las artes, pero estas son un vehículo ideal para desarrollarla. Se considera una competencia clave para el S.XXI. **La creatividad se aprende y se estimula** planteando retos abiertos, no solo ejercicios técnicos.</p>
+
+                        <h4 class="font-semibold text-gray-800 mt-4">2. Convivencia y Respeto (Arte Sociocrítico):</h4>
+                        <p class="text-gray-700">El arte es un **lenguaje universal** que puede saltar barreras lingüísticas y culturales, convirtiéndose en un **vehículo de inclusión**. Permite abordar temas sociales complejos (justicia social, ecología, inmigración) y generar conciencia.</p>
+                        <ul class="list-disc list-inside mt-2 space-y-1 text-sm text-gray-600">
+                            <li><strong>Ejemplo (Artista):</strong> **Marina DeBris** con su proyecto "Trashion", que usa basura recogida del océano para crear "moda" y concienciar sobre la contaminación.</li>
+                            <li><strong>Ejemplo (Artista):</strong> **Patricia Piccinini**, que con sus esculturas hiperrealistas explora la bioética, la ingeniería genética y nuestra relación con lo "otro" o lo "monstruoso", generando empatía.</li>
+                        </ul>
+
+                        <h4 class="font-semibold text-gray-800 mt-4">3. Abrir las Aulas al Entorno:</h4>
+                        <p class="text-gray-700">Aplicación directa de la Cognición Situada. El aprendizaje debe salir del aula y el aula debe transformarse.</p>
+                         <ul class="list-disc list-inside mt-2 space-y-1 text-gray-700">
+                            <li>Conectar el centro con su **contexto**: el barrio, asociaciones, museos, centros cívicos.</li>
+                            <li>**Rediseñar los espacios** del aula: mobiliario flexible, decoración.</li>
+                            <li>Usar **espacios alternativos** del centro: pasillos, patios, escaleras, gimnasio.</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- FIN NUEVO CONTENIDO -->
+
             </div>
 
             <!-- Sección 4: Preguntas de Desarrollo -->
@@ -338,7 +434,7 @@
                     <h3 class="font-semibold text-lg">3. ¿Qué es la evaluación innovadora y qué principios clave la rigen? Pon un ejemplo de cómo aplicarías una evaluación de este tipo en un proyecto de "Tape Art" en el aula.</h3>
                     <p class="mt-3 text-gray-700">
                         La evaluación innovadora es un enfoque que supera la simple calificación numérica y concibe la evaluación como una parte integral y formativa del proceso de aprendizaje. Su objetivo no es castigar el error, sino utilizarlo como una oportunidad para que tanto el alumno (regulando su aprendizaje) como el docente (ajustando su enseñanza) puedan mejorar.<br><br>
-                        Sus <strong>principios clave</strong> son: ser formativa, promover la autorregulación del alumno, ser auténtica (basada en tareas reales), fomentar el diálogo y dar protagonismo al estudiante a través de la autoevaluación y la coevaluación.<br><br>
+                        Sus <strong>principios clave</strong> (basados en Serrano, 2002) son: ser formativa, proponer tareas auténticas y contextualizadas, promover la autorregulación del alumno, fomentar el diálogo (feedback) y dar protagonismo al estudiante a través de la autoevaluación y la coevaluación.<br><br>
                         <strong>Ejemplo en un proyecto de "Tape Art":</strong><br>
                         En un proyecto donde los alumnos deben crear una intervención de Tape Art en una pared del instituto, una evaluación innovadora no se limitaría a poner una nota al resultado final. Incluiría:<br>
                         - <strong>Evaluación inicial (Diagnóstica):</strong> Un brainstorming para ver qué saben los alumnos sobre arte urbano y qué ideas iniciales tienen.<br>
@@ -351,15 +447,15 @@
                 <div class="pregunta-desarrollo bg-white p-5 rounded-lg shadow-sm border border-gray-200" data-category="all">
                     <h3 class="font-semibold text-lg">4. Como futuro docente, ¿por qué es fundamental la autoevaluación y el crecimiento profesional continuo? Describe dos estrategias o herramientas que utilizarías para tu propio desarrollo.</h3>
                     <p class="mt-3 text-gray-700">
-                        La autoevaluación y el crecimiento profesional son fundamentales porque la educación es un campo dinámico y en constante cambio. Un docente no puede permitirse quedarse estancado con las prácticas que aprendió hace años, ya que tanto la sociedad como las necesidades de los alumnos evolucionan. La autoevaluación permite identificar las fortalezas y debilidades de nuestra propia práctica docente, mientras que el crecimiento continuo nos proporciona las herramientas para mejorar y adaptarnos. El objetivo final es garantizar una educación de la máxima calidad para el alumnado.<br><br>
+                        La autoevaluación y el crecimiento profesional son fundamentales porque la educación es un campo dinámico y en constante cambio. Un docente no puede permitirse quedarse estancado con las prácticas que aprendió hace años, ya que tanto la sociedad como las necesidades de los alumnos evolucionan. La autoevaluación (el diagnóstico) permite identificar las fortalezas y debilidades de nuestra propia práctica docente, mientras que el crecimiento continuo (la formación) nos proporciona las herramientas para mejorar y adaptarnos. El objetivo final es garantizar una educación de la máxima calidad para el alumnado.<br><br>
                         Dos estrategias que utilizaría para mi desarrollo serían:<br>
-                        1. <strong>Comunidades de Práctica (Aprendizaje entre iguales):</strong> Crearía o me uniría a un pequeño grupo de compañeros docentes de mi centro (o incluso de otros centros a través de redes profesionales online) para reunirnos periódicamente. En estas sesiones, podríamos compartir experiencias, discutir problemas comunes, observar las clases de los otros para dar feedback (observación entre pares) y planificar proyectos interdisciplinares. Este enfoque colaborativo rompe el aislamiento docente y acelera el aprendizaje.<br><br>
+                        1. <strong>Comunidades de Práctica (Aprendizaje colectivo):</strong> Crearía o me uniría a un pequeño grupo de compañeros docentes de mi centro para reunirnos periódicamente. En estas sesiones, podríamos compartir experiencias, discutir problemas comunes, observar las clases de los otros para dar feedback (observación entre pares) y planificar proyectos interdisciplinares. Este enfoque colaborativo rompe el aislamiento docente y acelera el aprendizaje.<br><br>
                         2. <strong>Portafolio Docente Reflexivo:</strong> Llevaría un registro digital (un blog privado o una carpeta organizada) donde documentaría mis proyectos de aula más significativos. No se trataría solo de guardar los materiales, sino de escribir una breve reflexión sobre cada uno: ¿qué objetivos tenía?, ¿qué funcionó bien?, ¿qué dificultades surgieron?, ¿qué cambiaría la próxima vez? Este ejercicio de reflexión sistemática es una poderosa herramienta de autoevaluación que me permitiría visualizar mi progreso y consolidar mi filosofía de enseñanza.
                     </p>
                 </div>
             </div>
             
-            <!-- Sección 5: Test de Autoevaluación -->
+            <!-- Sección 5: Test de Autoevaluación (Modo Práctica) -->
             <div id="test" class="tab-pane hidden space-y-6">
                  <!-- Filtro -->
                  <div class="flex flex-wrap justify-start mb-4 space-x-2">
@@ -514,7 +610,7 @@
                         <div><input type="radio" name="q13" value="a" id="q13a"><label for="q13a" class="ml-2">a) El positivista usa método científico; el fenomenológico, observación natural.</label></div>
                         <div><input type="radio" name="q13" value="b" id="q13b"><label for="q13b" class="ml-2">b) El positivista ve la realidad objetiva; el fenomenológico, construida y cultural.</label></div>
                         <div><input type="radio" name="q13" value="c" id="q13c"><label for="q13c" class="ml-2">c) El positivista busca conocimiento; el fenomenológico, interacción.</label></div>
-                        <div><input type="radio" name="q13" value="d" id="q13d"><label for="q13d" class="ml-2">d) El positivista es dialéctico; el fenomenológico, comprensivo.</label></div>
+                        <div><input type="radio" name="q13" value="d" id="q13d"><label for="q1od" class="ml-2">d) El positivista es dialéctico; el fenomenológico, comprensivo.</label></div>
                      </div>
                      <button class="check-answer mt-4 bg-blue-500 text-white px-3 py-1 rounded-md text-sm">Comprobar</button>
                     <div class="feedback"><strong>Explicación:</strong> La diferencia fundamental radica en la concepción de la realidad: objetiva y única para el positivismo, subjetiva y construida socialmente para el fenomenológico.</div>
@@ -821,22 +917,86 @@
                 </div>
 
             </div>
+
+            <!-- Sección 6: Test (Flashcards) - NUEVA SECCIÓN -->
+            <div id="test-flashcard" class="tab-pane hidden space-y-6">
+                <div id="flashcard-start-container" class="text-center">
+                    <p class="text-lg text-gray-700 mb-6">Prueba tus conocimientos en modo de examen. Verás una pregunta a la vez.</p>
+                    <button id="start-flashcard-test" class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition-colors">
+                        ¡Comenzar Test!
+                    </button>
+                </div>
+
+                <div id="flashcard-quiz-container" class="hidden">
+                    <!-- Cabecera del Test -->
+                    <div class="flex justify-between items-center mb-4 p-4 bg-white rounded-lg shadow-sm border border-gray-200">
+                        <div class="font-semibold text-gray-700">
+                            Pregunta <span id="flashcard-progress-current">1</span> de <span id="flashcard-progress-total">38</span>
+                        </div>
+                        <div class="flex space-x-4 font-medium">
+                            <span class="text-green-600">Acertadas: <span id="flashcard-score-correct">0</span></span>
+                            <span class="text-red-600">Falladas: <span id="flashcard-score-incorrect">0</span></span>
+                        </div>
+                    </div>
+
+                    <!-- Contenedor de la Pregunta -->
+                    <div id="flashcard-question-area" class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 mb-4">
+                        <p id="flashcard-question-text" class="text-lg font-semibold mb-6">Cargando pregunta...</p>
+                        <div id="flashcard-options-container" class="space-y-3">
+                            <!-- Opciones se generan dinámicamente -->
+                        </div>
+                        <div id="flashcard-explanation" class="feedback mt-4">
+                            <!-- Explicación se genera dinámicamente -->
+                        </div>
+                    </div>
+
+                    <!-- Navegación -->
+                    <div id="flashcard-nav" class="flex justify-between items-center">
+                        <button id="flashcard-prev" class="bg-gray-200 text-gray-700 px-5 py-2 rounded-md hover:bg-gray-300 transition-colors">Anterior</button>
+                        <button id="flashcard-next" class="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700 transition-colors">Siguiente</button>
+                        <button id="flashcard-finish" class="bg-green-600 text-white px-5 py-2 rounded-md hover:bg-green-700 transition-colors hidden">Finalizar</button>
+                    </div>
+                </div>
+
+                <!-- Contenedor de Resultados -->
+                <div id="flashcard-results-container" class="hidden text-center bg-white p-8 rounded-lg shadow-md border border-gray-200">
+                    <h2 class="text-2xl font-bold mb-4">¡Test Completado!</h2>
+                    <p class="text-lg text-gray-700 mb-2">Tu puntuación final es:</p>
+                    <div class="text-4xl font-bold text-blue-600 mb-6">
+                        <span id="flashcard-final-correct">0</span> / <span id="flashcard-final-total">0</span>
+                    </div>
+                    <div class="space-x-4">
+                        <button id="flashcard-review-failed" class="bg-red-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-red-700 transition-colors">
+                            Repasar Fallos
+                        </button>
+                        <button id="flashcard-restart" class="bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-md hover:bg-gray-300 transition-colors">
+                            Reiniciar Test
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Contenedor de Repaso de Fallos -->
+                <div id="flashcard-review-container" class="hidden space-y-4">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Repaso de Preguntas Falladas</h2>
+                    <!-- Preguntas falladas se generan dinámicamente -->
+                </div>
+
+            </div>
+
         </main>
     </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // Lógica para las pestañas
+    // --- LÓGICA DE PESTAÑAS Y ACORDEONES ---
     const tabButtons = document.querySelectorAll('.tab-button');
     const tabPanes = document.querySelectorAll('.tab-pane');
 
     tabButtons.forEach(button => {
         button.addEventListener('click', () => {
-            // Desactivar todas las pestañas y botones
             tabButtons.forEach(btn => btn.classList.remove('active', 'bg-blue-600', 'border-blue-600', 'text-white'));
             tabPanes.forEach(pane => pane.classList.add('hidden'));
 
-            // Activar la pestaña y el botón clicados
             button.classList.add('active', 'bg-blue-600', 'border-blue-600', 'text-white');
             const targetPane = document.getElementById(button.dataset.tab);
             if (targetPane) {
@@ -845,7 +1005,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Lógica para los acordeones
     const accordionButtons = document.querySelectorAll('.accordion-button');
     accordionButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -859,30 +1018,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Lógica para los filtros
+    // --- LÓGICA DE FILTROS (PESTAÑA TEST PRÁCTICA) ---
     const filterButtons = document.querySelectorAll('.filter-button');
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
-            // Reset button styles for all filters in the same tab pane
             const currentTabPane = button.closest('.tab-pane');
             const currentFilterButtons = currentTabPane.querySelectorAll('.filter-button');
             currentFilterButtons.forEach(btn => btn.classList.remove('active', 'bg-blue-600', 'text-white'));
             currentFilterButtons.forEach(btn => btn.classList.add('bg-gray-200', 'text-gray-700'));
 
-             // Activate clicked button style
             button.classList.remove('bg-gray-200', 'text-gray-700');
             button.classList.add('active', 'bg-blue-600', 'text-white');
 
             const filter = button.dataset.filter;
-            const items = currentTabPane.querySelectorAll('[data-category]'); // Select only items within the current tab
+            const items = currentTabPane.querySelectorAll('[data-category]'); 
             items.forEach(item => {
                 if (filter === 'all' || item.dataset.category === filter) {
-                    item.style.display = 'block'; // Usar block en lugar de ''
+                    item.style.display = 'block'; 
                 } else {
                     item.style.display = 'none';
                 }
             });
-             // Reset test answers visibility when changing filter in the test tab
+             
              if (button.closest('#test')) {
                 const feedbackBoxes = currentTabPane.querySelectorAll('.feedback');
                 feedbackBoxes.forEach(box => box.style.display = 'none');
@@ -892,51 +1049,306 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Set 'All' button as active by default for each filter group
     const filterGroups = document.querySelectorAll('.tab-pane');
     filterGroups.forEach(group => {
         const allButton = group.querySelector('.filter-button[data-filter="all"]');
         if (allButton) {
             allButton.classList.remove('bg-gray-200', 'text-gray-700');
             allButton.classList.add('active', 'bg-blue-600', 'text-white');
-             // Initially show all items
              const items = group.querySelectorAll('[data-category]');
              items.forEach(item => item.style.display = 'block');
         }
     });
 
-
-    // Lógica para el test de autoevaluación
+    // --- LÓGICA TEST PRÁCTICA (RADIOS) ---
     const checkButtons = document.querySelectorAll('.check-answer');
     checkButtons.forEach(button => {
         button.addEventListener('click', () => {
             const questionContainer = button.parentElement;
             const optionsContainer = questionContainer.querySelector('[data-correct]');
             const correctAnswer = optionsContainer.dataset.correct;
-            const selectedOption = optionsContainer.querySelector('input[type="radio"]:checked');
+            const selectedOption = questionContainer.querySelector('input[type="radio"]:checked');
             const feedbackBox = questionContainer.querySelector('.feedback');
-            const explanationText = feedbackBox.querySelector('strong'); // Get the explanation part
-
-            // Clear previous feedback styles
+            
             feedbackBox.classList.remove('correct', 'incorrect');
 
             if (selectedOption) {
                 if (selectedOption.value === correctAnswer) {
                     feedbackBox.classList.add('correct');
-                    feedbackBox.firstChild.textContent = '¡Correcto! '; // Keep the explanation text
+                    feedbackBox.firstChild.textContent = '¡Correcto! '; 
                 } else {
                     feedbackBox.classList.add('incorrect');
-                     feedbackBox.firstChild.textContent = 'Incorrecto. '; // Keep the explanation text
+                     feedbackBox.firstChild.textContent = 'Incorrecto. '; 
                 }
             } else {
                 feedbackBox.classList.add('incorrect');
-                 feedbackBox.firstChild.textContent = 'Por favor, selecciona una respuesta. '; // Keep the explanation text
+                 feedbackBox.firstChild.textContent = 'Por favor, selecciona una respuesta. ';
             }
-            // Muestra la explicación
             feedbackBox.style.display = 'block';
         });
     });
 
+    // --- LÓGICA DEL NUEVO TEST (FLASHCARDS) ---
+
+    let allQuestions = [];
+    let currentQuestionIndex = 0;
+    let userAnswers = [];
+    let scoreCorrect = 0;
+    let scoreIncorrect = 0;
+
+    const startContainer = document.getElementById('flashcard-start-container');
+    const quizContainer = document.getElementById('flashcard-quiz-container');
+    const resultsContainer = document.getElementById('flashcard-results-container');
+    const reviewContainer = document.getElementById('flashcard-review-container');
+
+    const startButton = document.getElementById('start-flashcard-test');
+    const restartButton = document.getElementById('flashcard-restart');
+    const reviewButton = document.getElementById('flashcard-review-failed');
+
+    const progressCurrent = document.getElementById('flashcard-progress-current');
+    const progressTotal = document.getElementById('flashcard-progress-total');
+    const scoreCorrectEl = document.getElementById('flashcard-score-correct');
+    const scoreIncorrectEl = document.getElementById('flashcard-score-incorrect');
+    const questionTextEl = document.getElementById('flashcard-question-text');
+    const optionsContainerEl = document.getElementById('flashcard-options-container');
+    const explanationEl = document.getElementById('flashcard-explanation');
+    
+    const prevButton = document.getElementById('flashcard-prev');
+    const nextButton = document.getElementById('flashcard-next');
+    const finishButton = document.getElementById('flashcard-finish');
+
+    const finalCorrectEl = document.getElementById('flashcard-final-correct');
+    const finalTotalEl = document.getElementById('flashcard-final-total');
+
+    // 1. Cargar y parsear las preguntas desde la pestaña de test original
+    function loadQuestions() {
+        allQuestions = [];
+        const questionNodes = document.querySelectorAll('#test .pregunta-test');
+        const answerMap = { 'a': 0, 'b': 1, 'c': 2, 'd': 3 };
+
+        questionNodes.forEach((qEl, index) => {
+            const question = qEl.querySelector('p.font-semibold').innerText;
+            const optionsNodes = qEl.querySelectorAll('.mt-3 div');
+            
+            const options = Array.from(optionsNodes).map(opt => {
+                const label = opt.querySelector('label');
+                return label ? label.innerText.substring(label.innerText.indexOf(')') + 1).trim() : ''; 
+            }).filter(opt => opt.length > 0); 
+            
+            const correctValue = qEl.querySelector('[data-correct]').dataset.correct;
+            const correctIndex = answerMap[correctValue];
+            const explanation = qEl.querySelector('.feedback').innerHTML;
+
+            // Validar que la pregunta se parseó correctamente
+            if (question && options.length > 0 && correctIndex !== undefined && explanation) {
+                 allQuestions.push({
+                    question: `${index + 1}. ${question.substring(question.indexOf(' ') + 1)}`, // Quita el número original
+                    options: options,
+                    correctIndex: correctIndex,
+                    explanation: explanation
+                });
+            } else {
+                console.warn("Pregunta saltada por parseo incorrecto:", qEl);
+            }
+        });
+
+        // Barajar las preguntas
+        allQuestions.sort(() => Math.random() - 0.5);
+
+        progressTotal.textContent = allQuestions.length;
+        finalTotalEl.textContent = allQuestions.length;
+    }
+    
+    // 2. Iniciar el Test
+    startButton.addEventListener('click', startFlashcardTest);
+    restartButton.addEventListener('click', startFlashcardTest);
+
+    function startFlashcardTest() {
+        loadQuestions(); 
+        currentQuestionIndex = 0;
+        scoreCorrect = 0;
+        scoreIncorrect = 0;
+        userAnswers = new Array(allQuestions.length).fill(null);
+        
+        scoreCorrectEl.textContent = '0';
+        scoreIncorrectEl.textContent = '0';
+
+        startContainer.classList.add('hidden');
+        resultsContainer.classList.add('hidden');
+        reviewContainer.classList.add('hidden');
+        reviewContainer.innerHTML = ''; 
+        quizContainer.classList.remove('hidden');
+
+        showFlashcardQuestion(currentQuestionIndex);
+    }
+
+    // 3. Mostrar una pregunta
+    function showFlashcardQuestion(index) {
+        if (index < 0 || index >= allQuestions.length) return;
+
+        const q = allQuestions[index];
+        questionTextEl.textContent = q.question;
+        optionsContainerEl.innerHTML = '';
+        explanationEl.style.display = 'none';
+        optionsContainerEl.classList.remove('options-locked');
+
+        q.options.forEach((option, i) => {
+            const optionButton = document.createElement('button');
+            optionButton.className = 'flashcard-option w-full text-left p-4 rounded-md bg-white hover:bg-gray-100';
+            optionButton.textContent = option;
+            optionButton.dataset.index = i;
+            optionButton.addEventListener('click', () => handleOptionClick(i, optionButton));
+            optionsContainerEl.appendChild(optionButton);
+        });
+
+        // Restaurar estado si ya fue respondida
+        const answer = userAnswers[index];
+        if (answer !== null) {
+            optionsContainerEl.classList.add('options-locked');
+            const allOptionButtons = optionsContainerEl.querySelectorAll('button');
+            const selectedButton = allOptionButtons[answer.selectedIndex];
+            
+            if (selectedButton) { // Comprobar que el botón existe
+                selectedButton.classList.add('selected');
+                if (answer.isCorrect) {
+                    selectedButton.classList.add('correct');
+                } else {
+                    selectedButton.classList.add('incorrect');
+                    if (allOptionButtons[q.correctIndex]) { // Comprobar que existe
+                         allOptionButtons[q.correctIndex].classList.add('correct'); // Mostrar la correcta
+                    }
+                }
+                explanationEl.innerHTML = q.explanation;
+                explanationEl.style.display = 'block';
+            }
+        }
+
+        // Actualizar navegación
+        progressCurrent.textContent = index + 1;
+        prevButton.disabled = index === 0;
+        prevButton.classList.toggle('opacity-50', index === 0);
+        
+        if (index === allQuestions.length - 1) {
+            nextButton.classList.add('hidden');
+            finishButton.classList.remove('hidden');
+        } else {
+            nextButton.classList.remove('hidden');
+            finishButton.classList.add('hidden');
+        }
+    }
+
+    // 4. Manejar clic en una opción
+    function handleOptionClick(selectedIndex, optionButtonEl) {
+        if (userAnswers[currentQuestionIndex] !== null) return; // Ya respondida
+
+        const q = allQuestions[currentQuestionIndex];
+        const isCorrect = selectedIndex === q.correctIndex;
+
+        userAnswers[currentQuestionIndex] = { selectedIndex, isCorrect };
+
+        optionsContainerEl.classList.add('options-locked');
+        optionButtonEl.classList.add('selected');
+
+        if (isCorrect) {
+            scoreCorrect++;
+            optionButtonEl.classList.add('correct');
+            explanationEl.classList.remove('incorrect');
+            explanationEl.classList.add('correct');
+        } else {
+            scoreIncorrect++;
+            optionButtonEl.classList.add('incorrect');
+            const correctButton = optionsContainerEl.querySelectorAll('button')[q.correctIndex];
+            if (correctButton) {
+                correctButton.classList.add('correct');
+            }
+            explanationEl.classList.remove('correct');
+            explanationEl.classList.add('incorrect');
+        }
+
+        scoreCorrectEl.textContent = scoreCorrect;
+        scoreIncorrectEl.textContent = scoreIncorrect;
+        
+        explanationEl.innerHTML = q.explanation;
+        explanationEl.style.display = 'block';
+    }
+
+    // 5. Navegación
+    nextButton.addEventListener('click', () => {
+        if (currentQuestionIndex < allQuestions.length - 1) {
+            currentQuestionIndex++;
+            showFlashcardQuestion(currentQuestionIndex);
+        }
+    });
+
+    prevButton.addEventListener('click', () => {
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            showFlashcardQuestion(currentQuestionIndex);
+        }
+    });
+
+    finishButton.addEventListener('click', finishTest);
+
+    // 6. Finalizar Test
+    function finishTest() {
+        quizContainer.classList.add('hidden');
+        resultsContainer.classList.remove('hidden');
+        
+        finalCorrectEl.textContent = scoreCorrect;
+
+        // Habilitar/deshabilitar botón de repaso
+        if (scoreIncorrect > 0) {
+            reviewButton.classList.remove('hidden');
+        } else {
+            reviewButton.classList.add('hidden');
+        }
+    }
+
+    // 7. Repasar Fallos
+    reviewButton.addEventListener('click', () => {
+        resultsContainer.classList.add('hidden');
+        reviewContainer.classList.remove('hidden');
+        reviewContainer.innerHTML = '<h2 class="text-2xl font-bold text-gray-800 mb-4">Repaso de Preguntas Falladas</h2>'; // Reset
+
+        userAnswers.forEach((answer, index) => {
+            if (answer && !answer.isCorrect) {
+                const q = allQuestions[index];
+                const reviewEl = document.createElement('div');
+                reviewEl.className = 'pregunta-test bg-white p-5 rounded-lg shadow-sm border border-red-200';
+                
+                let optionsHTML = q.options.map((opt, i) => {
+                    let classes = 'p-2 rounded-md';
+                    if (i === q.correctIndex) {
+                        classes += ' bg-green-100 text-green-800 font-semibold';
+                    } else if (i === answer.selectedIndex) {
+                        classes += ' bg-red-100 text-red-800 line-through';
+                    }
+                    return `<li class="${classes}">${opt}</li>`;
+                }).join('');
+
+                reviewEl.innerHTML = `
+                    <p class="font-semibold mb-4">${q.question}</p>
+                    <ul class="space-y-2 mb-4 list-none p-0">${optionsHTML}</ul>
+                    <div class="feedback correct" style="display:block;">${q.explanation}</div>
+                `;
+                reviewContainer.appendChild(reviewEl);
+            }
+        });
+
+        const backButton = document.createElement('button');
+        backButton.textContent = 'Volver al inicio del Test';
+        backButton.className = 'mt-6 bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 transition-colors';
+        backButton.onclick = () => {
+            reviewContainer.classList.add('hidden');
+            startContainer.classList.remove('hidden');
+        };
+        reviewContainer.appendChild(backButton);
+    });
+
+
+    // --- INICIALIZACIÓN ---
+    loadQuestions(); // Cargar preguntas al inicio
+    
     // Activar la primera pestaña por defecto (Unidad 1)
     document.querySelector('.tab-button[data-tab="unidad1"]').click();
 
